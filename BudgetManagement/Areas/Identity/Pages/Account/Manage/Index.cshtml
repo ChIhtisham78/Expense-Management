@@ -1,0 +1,151 @@
+﻿@page
+@model IndexModel
+@{
+
+    ViewData["Title"] = "Profile";
+
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+<style>
+    .container {
+        text-align: center;
+    }
+
+    .profile{
+        text-align:center;
+        font-size:40px;
+        font-weight:bold;
+    }
+</style>
+<h1 class="profile">@ViewData["Title"]</h1>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="profile-picture-container">
+    <img id="profile-picture-preview" class="float-end" src="#" alt="Profile Picture Preview" style="display: none; max-height: 300px; max-width: 300px;">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form id="profile-form" method="post" enctype="multipart/form-data" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Username" class="form-label font-weight-bold"></label>
+                        <input asp-for="Username" class="form-control form-control-lg" placeholder="Please choose your username." disabled />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.PhoneNumber" class="form-label font-weight-bold"></label>
+                        <input asp-for="Input.PhoneNumber" class="form-control form-control-lg" placeholder="Please enter your Phone Number." />
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="profile-picture-container">
+                        <img id="current-profile-picture" src="@Url.Content(Model.ProfilePicturePath)" alt="Profile Picture" style="max-height: 300px; max-width: 300px;">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Input.ProfilePicture" class="control-label font-weight-bold"></label>
+                        <input asp-for="Input.ProfilePicture" class="form-control form-control-lg" type="file" onchange="previewImage(this)">
+                        <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.Name" class="form-label font-weight-bold"></label>
+                        <input asp-for="Input.Name" class="form-control form-control-lg" placeholder="Please enter your Name." />
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.Address" class="form-label font-weight-bold"></label>
+                        <input asp-for="Input.Address" class="form-control form-control-lg" placeholder="Please enter Your Address." />
+                        <span asp-validation-for="Input.Address" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.ZipCode" class="form-label font-weight-bold"></label>
+                        <input asp-for="Input.ZipCode" class="form-control form-control-lg" placeholder="Please enter your Zipcode." />
+                        <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.City" class="form-label font-weight-bold"></label>
+                        <input asp-for="Input.City" class="form-control form-control-lg" placeholder="Please enter your City." />
+                        <span asp-validation-for="Input.City" class="text-danger"></span>
+                    </div>
+                </div> 
+                <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <label asp-for="Input.Password" class="form-label font-weight-bold"></label>
+                            <input asp-for="Input.Password" class="form-control form-control-lg" placeholder="Please enter your Password." />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button id="update-profile-button" type="submit"  class="btn btn-lg w-11 btn-info">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="profile-picture-container">
+    <img id="profile-picture-preview" src="#" alt="Profile Picture Preview" style="display: none;">
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            getUserImage();
+            function getUserImage() {
+                $.ajax({
+                    url: '/api/GetUserImage', 
+                    type: 'GET',
+                    success: function (data) {
+                        $('#current-profile-picture').attr('src', data.imageUrl);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching user image:', error);
+                    }
+                });
+            }
+
+            function previewImage(input) {
+                var preview = document.getElementById('profile-picture-preview');
+                var file = input.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var image = new Image();
+                    image.src = e.target.result;
+
+                    image.onload = function () {
+                        if (this.width > 300 || this.height > 300) {
+                            alert("The maximum dimensions of the image are 300x300 pixels. Please choose a smaller image.");
+                            return;
+                        }
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

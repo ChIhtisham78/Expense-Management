@@ -1,0 +1,138 @@
+﻿<link href="~/css/JqueryDatatbleCustomUI.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" />
+<style>
+    .expanded-row-content {
+        padding: 10px;
+        background-color: #f0f0f0;
+    }
+</style>
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Salary History</h4>
+                <button id="btn-add-new-salary" class="btn btn-info float-right">Add Salary<i class=" pl-3 fa fa-plus"></i></button>
+            </div>
+            <div class="card-body">
+                <table id="salary-table" class="display nowrap table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Contractor Name</th>
+                            <th class="text-center">Project Name</th>
+                            <th class="text-center">Multiple Projects</th>
+                            <th class="text-center">Basic Salary</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---------------------------------------------------SalaryMapping Modal ------------------------------------------->
+<div class="modal fade" id="salary-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form id="frm-salary">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info" id="salary-popup-title">Add Salary</h5>
+                    <button type="button" class="close text-info" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ddl-contractor-name" class="col-form-label font-weight-bold">Contractor Name :</label>
+                                <select name="ddl-contractor-name" class="w-100" id="ddl-contractor-name"></select>
+                                <div id="ddl-contractor-name-error-div"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ddl-single-project-name" class="col-form-label font-weight-bold">Project Name :</label>
+                                <select name="ddl-single-project-name" class="w-100" id="ddl-single-project-name">
+                                </select>
+                                <div id="ddl-single-project-name-error-div"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txt-amount" class="col-form-label font-weight-bold">Basic Salary :</label>
+                                <input autocomplete="off" type="number" name="txt-amount" class="form-control w-100 font-weight-bold" id="txt-amount" placeholder="Basic Salary">
+                                <div id="txt-amount-error-div"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ddl-project-name" class="col-form-label font-weight-bold">Multiple Project :</label>
+                                <select name="ddl-project-name" class="w-100 multiple-select" multiple id="ddl-project-name">
+                                </select>
+                                <div id="ddl-project-name-error-div"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="hidn-form-sallary-id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btn-save-transaction" class="btn btn-info">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@* <!---------------------------------------------------GenrateSalary Modal ------------------------------------------->
+<div class="modal fade" id="generatesalary-popup-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form id="frm-generatesalary">
+                <div class="modal-header">
+                    <h3 class="modal-title text-info" id="salary-popup-title">Are You Sure to Generate Salary?</h3>
+                    <button type="button" class="close text-info" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Project Name</th>
+                                    <th>Amount</th>
+                                    <th>Invoice Date</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be populated here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @*  <input type="hidden" id="hidn-form-generatesallary-id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+                    <button type="submit" id="btn-save-generateSalary" class="btn btn-info">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> *@
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        var objSalaryTable;
+    </script>
+    <script src="~/JsController/SallaryMapping/Salary.js"></script>
+}

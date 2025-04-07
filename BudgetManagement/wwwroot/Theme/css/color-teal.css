@@ -1,0 +1,34 @@
+/*============================
+		Theme Color Teal
+==============================*/
+:root,
+[data-bs-theme="light"] {
+  --bs-themecolor: #20c997;
+  --bs-themecolor-rgb: 32, 201, 151;
+  --bs-themehovercolor: #1aa67d;
+  --bs-themehovercolor-rgb: 26.39657, 165.80343, 124.5588;
+  --bs-link-color: var(--bs-themecolor);
+  --bs-link-color-rgb: var(--bs-themecolor-rgb);
+  --bs-link-hover-color: var(--bs-themehovercolor);
+  --bs-link-hover-color-rgb: var(--bs-themehovercolor-rgb);
+  --bs-primary: var(--bs-themecolor);
+  --bs-primary-rgb: var(--bs-themecolor-rgb);
+  --bs-primary-text-emphasis: #0d503c;
+  --bs-primary-bg-subtle: #d2f4ea;
+  --bs-primary-border-subtle: #a6e9d5;
+  --bs-body-color: #4c4d4d;
+  --bs-body-color-rgb: 76, 77, 77;
+  --bs-heading-color: var(--bs-emphasis-color);
+  --bs-body-font-family: Poppins, sans-serif;
+}
+
+[data-bs-theme="dark"] {
+  color-scheme: dark;
+  --bs-link-color: var(--bs-themecolor);
+  --bs-link-color-rgb: var(--bs-themecolor-rgb);
+  --bs-link-hover-color: var(--bs-themehovercolor);
+  --bs-link-hover-color-rgb: var(--bs-themehovercolor-rgb);
+  --bs-heading-color: var(--bs-emphasis-color);
+  --bs-body-color: #dee2e6;
+  --bs-body-color-rgb: 222, 226, 230;
+}

@@ -1,0 +1,82 @@
+﻿
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Client List</h4>
+                <button id="btn-add-new-client" class="btn btn-info float-right">Add New Client<i class="pl-3 fa fa-plus"></i></button>
+            </div>
+            <div class="card-body">
+                <table id="client-table" class="display nowrap table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Cell #</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-------------------------------------------------------------------- Modal -------------------------------------------------------------------->
+<div class="modal fade" id="client-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form id="frm-client">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info" id="client-popup-title"></h5>
+                    <button type="button" class="close text-info" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-sm-6 mt-1">
+                            <label for="txt-client-name">Client Name :</label>
+                            <input autocomplete="off" type="text" name="txt-client-name" class="form-control" id="txt-client-name" placeholder="Client Name">
+                        </div>
+                        <div class="col-sm-6 mt-1">
+                            <label for="txt-client-email">Client Email :</label>
+                            <input autocomplete="off" type="text" name="txt-client-email" class="form-control" id="txt-client-email" placeholder="Client Email">
+                        </div>
+
+                        <div class="col-sm-6 mt-1">
+                            <label for="txt-client-cell">Client cell :</label>
+                            <input autocomplete="off" type="text" name="txt-client-cell" class="form-control" id="txt-client-cell" placeholder="Client cell">
+                        </div>
+                        <div class="col-sm-6 mt-1">
+                            <label for="txt-client-webLink">Website Link :</label>
+                            <input autocomplete="off" type="text" name="txt-client-webLink" class="form-control" id="txt-client-webLink" placeholder="Website Link">
+                        </div>
+                        <div class="col-sm-12 mt-1">
+                            <label for="txt-client-desc">Desc :</label>
+                            <textarea rows="4" autocomplete="off" type="text" name="txt-client-desc" class="form-control" id="txt-client-desc" placeholder="Description"></textarea>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="hidn-txt-client-id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btn-save-client" class="btn btn-info">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var objClientTable;
+    </script>
+    <script src="~/JsController/Account/Client.js"></script>
+}

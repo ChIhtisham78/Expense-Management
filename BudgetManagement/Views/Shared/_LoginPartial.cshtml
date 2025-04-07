@@ -1,0 +1,123 @@
+﻿@* @using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    </li>
+    <li class="nav-item">
+        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>
+ *@
+
+@using ExpenseManagment.Data.DataBaseEntities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<style>
+    .custom-navbar {
+        height: 60px;
+    }
+
+    .navbar-toggler-icon {
+        background-color: white; /* Customize the toggler icon background color */
+    }
+
+    .nav-link.dropdown-toggle {
+        display: flex;
+        align-items: center;
+        color: white; /* Customize the link color */
+        cursor: pointer;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        color: black; /* Customize the dropdown item text color */
+    }
+
+        .dropdown-item:hover {
+            background-image: linear-gradient(#02a5de,#029acf 6%,#028fc0); /* Customize the hover background color */
+            color: white; /* Customize the hover text color */
+        }
+
+</style>
+
+<nav class="custom-navbar">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var user = await UserManager.GetUserAsync(User);
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="@user.ProfilePicturePath" alt="User Avatar" class="navbar-icon rounded-circle mr-2"
+                                 width="30" height="30">
+                            <span class="ms-1" style="text-align: center;">
+                                @User.Identity?.Name!<br />
+                                 @string.Join(", ", await UserManager.GetRolesAsync(await UserManager.GetUserAsync(User)))
+                             </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">
+                                <i class="fas fa-key text-muted fs-16 align-middle mr-2"></i> 
+                                Change Password
+                            </a>
+                            <a class="dropdown-item" asp-controller="UserManagement" asp-action="Management" id="" role="button">
+                                <i class="fa-solid  text-muted  fs-16 align-middle mr-2 fa-people-roof"></i>
+                                UserManagement
+                            </a>
+                            <a class="dropdown-item" asp-controller="AuditLog" asp-action="AuditLog" id="" role="button">
+                                <i class="fa-solid text-muted fs-16 align-middle mr-2 fa-bars"></i>
+                                AuditLog
+                            </a>
+                            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                <i class="fa-solid fa-user-pen text-muted  fs-16 align-middle mr-2"></i>
+                                Edit Profile
+                            </a>
+                            <!-- Hidden form -->
+                            <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout"
+                                  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+                            </form>
+
+                            <!-- Use the <a> element for logging out -->
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                                <i class="fa fa-sign-out text-muted fs-16 align-middle mr-2"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+

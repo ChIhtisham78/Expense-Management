@@ -1,0 +1,25 @@
+﻿.text-animation {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9); /* Start position: slightly above and slightly smaller */
+    animation: morphingAnimation 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: 1s; /* Delay the animation start by 3 seconds */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add text shadow for depth */
+    letter-spacing: 1px; /* Add slight letter spacing for clarity */
+}
+
+@keyframes morphingAnimation {
+    0% {
+        transform: translateY(-50px) scale(0.9); /* Start position: slightly above and slightly smaller */
+        opacity: 0; /* Start with fully transparent */
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.1); /* Halfway point: slightly below and slightly larger */
+        opacity: 1; /* Middle point with full opacity */
+    }
+
+    100% {
+        transform: translateY(0) scale(1); /* End position: original position */
+        opacity: 1; /* End with fully opaque */
+    }
+}

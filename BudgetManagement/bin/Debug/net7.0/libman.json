@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "multi-select@0.9.12",
+      "destination": "wwwroot/lib/multi-select/"
+    },
+    {
+      "library": "multiple-select@1.2.3",
+      "destination": "wwwroot/lib/multiple-select/"
+    }
+  ]
+}

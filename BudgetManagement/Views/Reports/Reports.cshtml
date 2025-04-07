@@ -1,0 +1,77 @@
+﻿
+<div class="card-body text-center">
+    <div class="d-inline-block">
+        <select class="form-control custom-dropdown-width d-inline-block " id="filter-dropdown">
+            <option value="" disabled selected>--- Please Select ---</option>
+        </select>
+    </div>
+</div>
+
+
+
+<div id="Selected" class="d-none">
+    <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+        <div class="card-header justify-content-between">
+            <div class="row">
+                <div class="col">
+                    <h4 class="font-weight-bold text-info mt-1">Inward Reports</h4>
+                </div>
+                <div class="col-auto">
+                    <div id="balance-container" class="text-end">
+                        <h4><strong>Current Balance: <span id="balance" class="font-weight-bold">0.00</span></strong></h4>
+                        <button id="btn-reports" class="btn btn-info float-right"><i class="fa-solid fa-print"></i> Print Reports</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="inward-table" class="display nowrap table-responsive-sm" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>TransactionId</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>From Acc</th>
+                        <th>Recipient</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="card shadow-lg bg-white rounded mt-3" style="max-width: 1180px; margin: 0 auto;">
+        <div class="card-header justify-content-between">
+            <h4 class="float-left font-weight-bold text-info mt-1">Outward Reports</h4>
+        </div>
+        <div class="card-body">
+            <table id="outward-table" class="display nowrap table-responsive-sm" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>From Acc</th>
+                        <th>Recipient</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script>
+        var ObjInwardTable;
+        var ObjOutWardTable;
+    </script>
+    <script src="~/JsController/Reports/Reports.js"></script>
+}

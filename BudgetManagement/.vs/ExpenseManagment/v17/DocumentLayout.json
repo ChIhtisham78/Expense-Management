@@ -1,0 +1,323 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\api\\manageauditlogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:api\\manageauditlogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\api\\manageinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:api\\manageinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\api\\managepayableinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:api\\managepayableinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\api\\manageprojectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:api\\manageprojectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\api\\managereportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:api\\managereportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\api\\manageusercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:api\\manageusercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\wwwroot\\jscontroller\\home\\projecttransaction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:wwwroot\\jscontroller\\home\\projecttransaction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\wwwroot\\jscontroller\\generatesalary\\generatesalary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:wwwroot\\jscontroller\\generatesalary\\generatesalary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\wwwroot\\jscontroller\\manageprojectjs\\project.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:wwwroot\\jscontroller\\manageprojectjs\\project.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\views\\project\\project.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:views\\project\\project.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\views\\account\\client.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:views\\account\\client.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\wwwroot\\jscontroller\\home\\addcapitaltobusiness.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:wwwroot\\jscontroller\\home\\addcapitaltobusiness.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\wwwroot\\jscontroller\\account\\client.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:wwwroot\\jscontroller\\account\\client.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\controllers\\auditlogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:controllers\\auditlogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\data\\common\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:data\\common\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\data\\common\\auditsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:data\\common\\auditsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|e:\\pojects\\buhtechexpence\\budgetmanagement\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2988C606-D6D1-43F3-8F76-3218DA16BBD6}|ExpenseManagment.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 13,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ManagePayableInvoiceController.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManagePayableInvoiceController.cs",
+              "RelativeDocumentMoniker": "API\\ManagePayableInvoiceController.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManagePayableInvoiceController.cs",
+              "RelativeToolTip": "API\\ManagePayableInvoiceController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T14:45:59.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ManageInvoiceController.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageInvoiceController.cs",
+              "RelativeDocumentMoniker": "API\\ManageInvoiceController.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageInvoiceController.cs",
+              "RelativeToolTip": "API\\ManageInvoiceController.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAcwFgAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T14:45:57.582Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ManageProjectController.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageProjectController.cs",
+              "RelativeDocumentMoniker": "API\\ManageProjectController.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageProjectController.cs",
+              "RelativeToolTip": "API\\ManageProjectController.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T14:45:44.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ManageReportsController.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageReportsController.cs",
+              "RelativeDocumentMoniker": "API\\ManageReportsController.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageReportsController.cs",
+              "RelativeToolTip": "API\\ManageReportsController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwCgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T14:45:09.693Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ManageUserController.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageUserController.cs",
+              "RelativeDocumentMoniker": "API\\ManageUserController.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageUserController.cs",
+              "RelativeToolTip": "API\\ManageUserController.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAwwG8AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T14:42:11.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProjectTransaction.js",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\Home\\ProjectTransaction.js",
+              "RelativeDocumentMoniker": "wwwroot\\JsController\\Home\\ProjectTransaction.js",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\Home\\ProjectTransaction.js",
+              "RelativeToolTip": "wwwroot\\JsController\\Home\\ProjectTransaction.js",
+              "ViewState": "AgIAAKkAAAAAAAAAAADgv7cAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-12-17T14:38:28.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Project.js",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\ManageProjectJS\\Project.js",
+              "RelativeDocumentMoniker": "wwwroot\\JsController\\ManageProjectJS\\Project.js",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\ManageProjectJS\\Project.js",
+              "RelativeToolTip": "wwwroot\\JsController\\ManageProjectJS\\Project.js",
+              "ViewState": "AgIAAKsAAAAAAAAAAAAAAM4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-12-17T14:16:45.062Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AddCapitalToBusiness.js",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\Home\\AddCapitalToBusiness.js",
+              "RelativeDocumentMoniker": "wwwroot\\JsController\\Home\\AddCapitalToBusiness.js",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\Home\\AddCapitalToBusiness.js",
+              "RelativeToolTip": "wwwroot\\JsController\\Home\\AddCapitalToBusiness.js",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAkwGcAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-10-22T22:19:12.19Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ManageAuditLogController.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageAuditLogController.cs",
+              "RelativeDocumentMoniker": "API\\ManageAuditLogController.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\API\\ManageAuditLogController.cs",
+              "RelativeToolTip": "API\\ManageAuditLogController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-18T13:27:08.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Client.cshtml",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Views\\Account\\Client.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Client.cshtml",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Views\\Account\\Client.cshtml",
+              "RelativeToolTip": "Views\\Account\\Client.cshtml",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEQAAABnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-25T14:39:08.535Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Project.cshtml",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Views\\Project\\Project.cshtml",
+              "RelativeDocumentMoniker": "Views\\Project\\Project.cshtml",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Views\\Project\\Project.cshtml",
+              "RelativeToolTip": "Views\\Project\\Project.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABcAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-17T14:15:39.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GenerateSalary.js",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\GenerateSalary\\GenerateSalary.js",
+              "RelativeDocumentMoniker": "wwwroot\\JsController\\GenerateSalary\\GenerateSalary.js",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\GenerateSalary\\GenerateSalary.js",
+              "RelativeToolTip": "wwwroot\\JsController\\GenerateSalary\\GenerateSalary.js",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAcwG4AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-10-22T22:17:55.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Client.js",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\Account\\Client.js",
+              "RelativeDocumentMoniker": "wwwroot\\JsController\\Account\\Client.js",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\wwwroot\\JsController\\Account\\Client.js",
+              "RelativeToolTip": "wwwroot\\JsController\\Account\\Client.js",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAJAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-10-22T22:15:44.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAA9wEIAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-18T13:24:21.121Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AuditSettings.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Data\\Common\\AuditSettings.cs",
+              "RelativeDocumentMoniker": "Data\\Common\\AuditSettings.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Data\\Common\\AuditSettings.cs",
+              "RelativeToolTip": "Data\\Common\\AuditSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-16T18:53:28.889Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AppConfiguration.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Data\\Common\\AppConfiguration.cs",
+              "RelativeDocumentMoniker": "Data\\Common\\AppConfiguration.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Data\\Common\\AppConfiguration.cs",
+              "RelativeToolTip": "Data\\Common\\AppConfiguration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-16T18:53:28.903Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AuditLogController.cs",
+              "DocumentMoniker": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Controllers\\AuditLogController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuditLogController.cs",
+              "ToolTip": "E:\\Pojects\\BuhTechExpence\\BudgetManagement\\Controllers\\AuditLogController.cs",
+              "RelativeToolTip": "Controllers\\AuditLogController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-16T18:53:29.074Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

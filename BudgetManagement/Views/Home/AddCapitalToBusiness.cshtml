@@ -1,0 +1,87 @@
+﻿<link href="~/css/JqueryDatatbleCustomUI.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" />
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Transaction History</h4>
+                <button id="btn-add-new-capital-transaction" class="btn btn-info float-right">Add Capital Amount<i class=" pl-3 fa fa-plus"></i></button>
+            </div>
+            <div class="card-body">
+                <table id="transaction-table" class="display nowrap table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Transaction Id</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Amount</th>
+                            <th class="text-center">Payee</th>
+                            <th class="text-center">Recipient</th>
+                            <th class="text-center">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------------------------- Modal ------------------------------------------->
+<div class="modal fade" id="transaction-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form id="frm-transaction">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info">Add Transaction</h5>
+                    <button type="button" class="close text-info" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center px-3">
+
+                        <div class="col-sm-9">
+                            <div class="row px-2">
+                                <label for="ddl-beneficiary-name" class="col-form-label font-weight-bold">Beneficiary Name :</label>
+                                <div class="col-sm ">
+                                    <select name="ddl-beneficiary-name" class="form-control" id="ddl-beneficiary-name"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 mt-1">
+                            <label for="dt-transaction-date">Transaction Date :</label>
+                            <input autocomplete="off" type="text" name="dt-transaction-date" class="form-control datepicker" id="dt-transaction-date">
+                        </div>
+                        <div class="col-sm-5 mt-1">
+                            <label for="txt-amount" class="font-weight-bold">Amount :</label>
+                            <input autocomplete="off" type="number" name="txt-amount" class="form-control font-weight-bold" id="txt-amount">
+                        </div>
+
+                        <div class="col-sm-12 mt-1">
+                            <label for="txt-desc">Desc :</label>
+                            <textarea rows="4" autocomplete="off" type="text" name="txt-desc" class="form-control" id="txt-desc" placeholder="Description"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btn-save-transaction" class="btn btn-info">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        var objCapitalTransactionTable;
+        $(function () {
+            $('#dt-transaction-date').datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+        });
+    </script>
+    <script src="~/JsController/Home/AddCapitalToBusiness.js"></script>
+}

@@ -1,0 +1,247 @@
+
+body {
+    background: #f1f1f1;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; 
+}
+
+span.is-invalid {
+    color: rgb(212 65 42) !important;
+    padding-left: .25rem;
+}
+
+.form-control.is-invalid:focus, .was-validated .form-control:invalid:focus {
+    border-color: red;
+    box-shadow: 0 0 0 0.2rem rgb(212 65 42 / 25%);
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: rgb(212 65 42);
+    padding-right: calc(1.5em + 0.75rem) !important;
+    background-image: none;
+}
+
+button.dt-button {
+    background: none !important;
+    border-color: #02a5de;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.w-5 {
+    width: 5%
+}
+
+.w-10 {
+    width: 10%
+}
+
+.w-15 {
+    width: 15%
+}
+
+.w-20 {
+    width: 20%
+}
+
+.w-25 {
+    width: 25%
+}
+
+.w-30 {
+    width: 30%
+}
+
+.w-35 {
+    width: 35%
+}
+
+.w-40 {
+    width: 40%
+}
+
+.w-45 {
+    width: 45%
+}
+
+.bg-light-c {
+    background: rgb(204,204,204);
+}
+
+#client,
+#bussiness,
+#partners,
+#contractors,
+#projects,
+#transaction,
+#salary,
+#generatesalary,
+#expenses {
+    transition: transform 0.3s ease;
+}
+
+    #client:hover,
+    #bussiness:hover,
+    #partners:hover,
+    #contractors:hover,
+    #projects:hover,
+    #transaction:hover,
+    #salary:hover,
+    #generatesalary:hover,
+    #expenses:hover {
+        transform: scale(1.1);
+    }
+.desc-wrap {
+    white-space: normal !important; 
+}
+
+.custom-dropdown-width {
+    width: 355px;
+    height:45px;
+}
+#compress-table {
+    width: 80px;
+}
+
+    #compress-table th,
+    #compress-table td {
+        padding: 5px; 
+        font-size: 9px;
+    }
+
+
+.rating {
+    display: inline-block;
+    width: 30px; 
+    height: 30px; 
+    background-color: #ccc; 
+    border-radius: 50%; 
+    cursor: pointer; 
+    text-align: center;
+    line-height: 30px; 
+    font-weight: bold; 
+}
+
+    .rating.selected {
+        background-color: green; 
+        color: white; 
+    }
+.name-label {
+    float: left;
+}
+
+.name-label-alphabet {
+    margin-left: 10px; 
+}
+
+.name-label::after {
+    content: '';
+    display: block;
+    border-left: 1px solid #ccc; 
+    height: 100%; 
+    margin-left: 5px; 
+}
+
+
+.profile-picture-container {
+    position: fixed;
+    top: 50%;
+    right: 100px;
+    transform: translateY(-50%);
+    text-align: center;
+}
+  .profile-picture-container img {
+        max-height: 300px; 
+        max-width: 300px;
+    }
+.col-md-6 {
+    width: 50%;
+}
+
+
+
+@keyframes cardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card {
+    animation: cardEntrance 0.5s ease-in-out both;
+    animation-delay: 0.1s; 
+}

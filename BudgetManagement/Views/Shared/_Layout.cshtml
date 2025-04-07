@@ -1,0 +1,236 @@
+﻿@using ExpenseManagment.Custom;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] ExpenseManagment</title>
+	<link rel="icon" type="image/png" sizes="16x16" href="~/Images/buhhtech_logo.jpeg">
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link href="~/lib/Jquery-datatable/datatables.min.css" rel="stylesheet" />
+	<link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+	<link rel="stylesheet" href="~/ExpenseManagment.styles.css" asp-append-version="true" />
+	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+	<link href="~/lib/multi-select/dist/multiple-select.css" rel="stylesheet" />
+	<link href="~/lib/multi-select/dist/multiple-select.min.css" rel="stylesheet" />
+	<link href="~/css/JqueryDatatbleCustomUI.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" />
+	<style>
+
+		* {
+			font-family: indie-flower, sans-serif;
+			font-style: normal;
+			font-weight: 400;
+		}
+
+		.dropdown:hover > .dropdown-menu {
+			display: block;
+		}
+
+		.dropdown-item:focus, .dropdown-item:hover {
+			color: #fff;
+			text-decoration: none;
+			background-color: #029acf;
+		}
+
+		.dashboard-title {
+			font-family: 'Times New Roman', Times, serif;
+			color: #1878C6;
+			font-size: 40px;
+			font-weight: 700;
+		}
+
+	</style>
+</head>
+<body>
+	<div style="z-index: 11111111 !important; position: fixed; right: 20px; top: 150px;">
+		<div id="toastInfo" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" style="max-width: 200px;">
+			<div class="toast-header">
+				<img src="" class="rounded me-2" alt="">
+				<strong class="mr-auto">Info</strong>
+				<small>Just now</small>
+				<button type="button" class="close" data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" style="font-size: 12px;">
+				[message]
+			</div>
+		</div>
+	</div>
+	<div class="position-fixed top-10 end-0 p-3" style="z-index: 1111111 !important; position: fixed; right: 20px; top: 150px;">
+		<div id="toastError" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" style="max-width: 200px;">
+			<div class="toast-header">
+				<img src="" class="rounded me-2" alt="">
+				<strong class="mr-auto">Error</strong>
+				<small>Just now</small>
+				<button type="button" class="close" data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" style="font-size: 12px;">
+				[message]
+			</div>
+		</div>
+	</div>
+	@if (User.Identity.IsAuthenticated)
+	{
+		<header>
+			<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top" style="border-style: none;">
+				<div class="container-fluid">
+					<a class="navbarLogo" href="/" aria-label="logo">
+						<img style="height: 50px;" src="~/Images/buhhtech_logo.jpeg" class="bg-white" />
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+							aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+						<partial name="_LoginPartial" />
+						<ul class="navbar-nav nav-item flex-grow-1" style="margin-top: auto;margin-left: 4%;">
+							@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.SuperAdmin))
+							{
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-dark font-weight-bold" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Accounts
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.Client))
+										{
+											<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Client">Clients</a>
+										}
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.Business))
+										{
+											<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Business">Businesses</a>
+										}
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.Partner))
+										{
+											<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Partner">Partners</a>
+										}
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.Contractor))
+										{
+											<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Contractor">Contractors</a>
+										}
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.AddCapitalToBusiness))
+										{
+											<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="AddCapitalToBusiness">AddCapitalToBusiness</a>
+										}
+									</div>
+								</li>
+							}
+
+							@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.SuperAdmin))
+							{
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-dark font-weight-bold" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Projects
+									</a>
+							
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.Project))
+										{
+											<a class="dropdown-item" asp-controller="Project" asp-action="Project" id="" role="button">
+												Project
+											</a>
+										}
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.ProjectTransaction))
+										{
+											<a class="dropdown-item" asp-controller="Home" asp-action="ProjectTransaction" id="" role="button">
+												ProjectTransactions
+											</a>
+										}
+										@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.Salary))
+										{
+											<a class="dropdown-item" asp-controller="SalaryMapping" asp-action="Salary" id="" role="button">
+												ProjectAssigning
+											</a>
+										}
+									</div>
+							</li>
+							}
+
+
+
+								@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.Expence))
+								{
+									<li class="nav-item ">
+										<a class="nav-link text-dark font-weight-bold" asp-controller="ManageExpence" asp-action="AddExpence" id="" role="button">
+										Expenses
+										</a>
+									</li>
+								}
+							@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.GenerateSalary))
+							{
+								<li class="nav-item">
+									<a class="nav-link text-dark font-weight-bold" asp-controller="GenerateSalary" asp-action="GenerateSalary" id="" role="button">
+										GeneratedSalaries
+									</a>
+								</li>
+							}
+							@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.SuperAdmin))
+							{
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-dark font-weight-bold" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Reports
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" asp-controller="Reports" asp-action="Reports">Business Accounts Report</a>
+									</div>
+								</li>
+							}
+							@if (new HlperNS().CheckIsInRole(User, Helper.RolesAttrVal.SuperAdmin))
+							{
+								<li class="nav-item ">
+									<a class="nav-link text-dark font-weight-bold" asp-controller="PayableInvoice" asp-action="PayInvoice" id="" role="button">
+										PayableInvoice
+									</a>
+								</li>
+							}
+						
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+	}
+	<div class="" style="margin-top:6rem;">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+		<button id="scrollToTopBtn" class="btn text-white" style="position: fixed; bottom: 50px; right: 20px; display: none; border-radius: 50%; background-color: #02a5de;" onclick="scrollToTop()">
+			<i class="fa-solid fa-angles-up"></i>
+		</button>
+	</div>
+
+	@if (User.Identity.IsAuthenticated)
+	{
+		@await Html.PartialAsync("~/Views/Shared/_footer.cshtml")
+	}
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/Jquery-datatable/datatables.min.js"></script>
+	<script src="~/lib/datatables-buttons/js/dataTables.buttons.js"></script>
+	<script src="~/lib/datatables-buttons/js/buttons.print.js"></script>
+	<script src="~/lib/datatables-buttons/js/buttons.html5.js"></script>
+	<script src="~/lib/datatables-buttons/js/buttons.colVis.js"></script>
+	<script src="~/lib/datatables-buttons/js/buttons.flash.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/lib/font-awesome/js/all.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="~/lib\bootstrap-sweetalert/bootstrap-sweetalert.js"></script>
+	<script src="~/helper.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script src="~/lib/multi-select/dist/multiple-select.js"></script>
+	<script src="~/lib/multi-select/dist/multiple-select.min.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

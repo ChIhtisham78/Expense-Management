@@ -1,0 +1,73 @@
+﻿
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Project List</h4>
+                <button id="btn-add-new-project" class="btn btn-info float-right">
+                    Add New Project
+                    <i class=" pl-3 fa fa-plus"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <table id="project-table" class="display nowrap table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Client Name</th>
+                            <th class="text-center">Project Name</th>
+                            <th class="text-center">ContractorEffectivePercentage</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------------------- Modal ------------------------------------------->
+<div class="modal fade" id="project-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form id="frm-project">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info" id="project-popup-title"></h5>
+                    <button type="button" class="close text-info" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="ddl-client-name">Client Name :</label>
+                            <select name="ddl-client-name" class="form-control" id="ddl-client-name"></select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="txt-project-name">Project Name :</label>
+                            <input autocomplete="off" type="text" name="txt-project-name" class="form-control" id="txt-project-name" placeholder="Project Name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 offset-sm-3 mt-1">
+                            <label for="ContractorEffectivePercent">ContractorEffectivePercentage :</label>
+                            <input autocomplete="off" type="number" name="ContractorEffectivePercentage" class="form-control" id="ContractorEffectivePercent" placeholder="0.00">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="hidn-txt-project-id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btn-save-project" class="btn btn-info">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var objProjectTable;
+    </script>
+    <script src="~/JsController/ManageProjectJS/Project.js"></script>
+}

@@ -1,0 +1,19 @@
+﻿@{
+    var appVersion = ExpenseManagment.Custom.AppVersion.GetAppVersion();
+}
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <!-- Display the current year using JavaScript -->
+                <script>document.write(new Date().getFullYear())</script> © EMS_BUH Tech.
+            </div>
+            <div class="col-sm-6" style="text-align: end;">
+                <!-- Assuming @appVersion is a server-side variable or constant -->
+                <div class="text-sm-end d-none d-sm-block">
+                    Version Number: @appVersion
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,35 @@
+﻿
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Generate Salary List</h4>
+            </div>
+            <div class="card-body">
+                <table id="GenerateSalary-table" class="display nowrap table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Contractor Name</th>
+                            <th class="text-center">Project Name</th>
+                            <th class="text-center">Basic Amount</th>
+                            <th class="text-center">Bonus Amount</th>
+                            <th class="text-center">Gross Percent Amount</th>
+                            <th class="text-center">Gross Total</th>
+                            <th class="text-center">Salary Month</th>
+                            <th class="text-center">Generate Invoice</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var objGenerateSalaryTable;
+    </script>
+    <script src="~/JsController/GenerateSalary/GenerateSalary.js"></script>
+}

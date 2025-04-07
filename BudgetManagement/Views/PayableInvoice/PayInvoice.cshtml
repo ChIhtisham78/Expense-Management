@@ -1,0 +1,32 @@
+﻿
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Payable Invoice List</h4>
+            </div>
+            <div class="card-body">
+                <table id="PayableInvoice-table" class="display nowrap table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Recipient</th>
+                            <th class="text-center">Invoice Amount</th>
+                            <th class="text-center">Invoice Date</th>
+                            <th class="text-center">Transaction Amount</th>
+                            <th class="text-center">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var objPayableInvoice
+    </script>
+    <script src="~/JsController/PayableInvoice/PayableInvoice.js"></script>
+}

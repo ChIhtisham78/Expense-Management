@@ -1,0 +1,95 @@
+﻿
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Expence List</h4>
+                <button id="btn-add-new-expence" class="btn btn-info float-right">Add Expense<i class=" pl-3 fa fa-plus"></i></button>
+            </div>
+            <div class="card-body">
+                <table id="expence-table" class="display nowrap table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Type</th>
+                            <th>From Acc</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-------------------------------------------------------------------- Modal -------------------------------------------------------------------->
+
+<div class="modal fade" id="expence-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form id="frm-expence">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info" id="expence-popup-title"></h5>
+                    <button type="button" class="close text-info" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6 mt-1">
+                            <label for="ddl-acc-name">Acc. Name :</label>
+                            <select name="ddl-acc-name" class="form-control" id="ddl-acc-name"></select>
+                        </div>
+                        <div class="col-sm-6 mt-1">
+                            <label for="dt-expence-date">Expence Date :</label>
+                            <input autocomplete="off" type="text" name="dt-expence-date" class="form-control datepicker" id="dt-expence-date">
+                        </div>
+                        <div class="col-sm-6 mt-1">
+                            <label for="txt-expence-type">Expence Type / Expence:</label>
+                            <input autocomplete="off" type="text" name="txt-expence-type" class="form-control" id="txt-expence-type">
+                        </div>
+                        <div class="col-sm-6 mt-1">
+                            <label for="txt-amount">Amount :</label>
+                            <input autocomplete="off" type="number" name="txt-amount" class="form-control" id="txt-amount">
+                        </div>
+
+                        <div class="col-sm-12 mt-1">
+                            <label for="txt-expence-desc">Desc :</label>
+                            <textarea rows="4" autocomplete="off" type="text" name="txt-expence-desc" class="form-control" id="txt-expence-desc" placeholder="Description"></textarea>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="hidn-txt-expence-id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btn-save-expence" class="btn btn-info">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+@*     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+ *@   
+     <script>
+        var objExpenceTable;
+        $(function () {
+            $('#dt-expence-date').datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+        });
+    </script>
+    <script src="~/JsController/ManageExpence/AddExpence.js"></script>
+}
+
+
+

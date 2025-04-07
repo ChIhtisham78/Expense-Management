@@ -1,0 +1,33 @@
+﻿
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card shadow-lg bg-white rounded" style="max-width: 1180px; margin: 0 auto;">
+            <div class="card-header justify-content-between">
+                <h4 class="float-left font-weight-bold text-info mt-1">Audit Log</h4>
+            </div>
+            <div class="card-body">
+                <table id="AuditLog-table" class="display table-responsive-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Time Stamp</th>
+                            <th class="text-center">User Id</th>
+                            <th class="text-center">User Email</th>
+                            <th class="text-center">Action Type</th>
+                            <th class="text-center">Table Name</th>
+                            <th class="text-center">Key Values</th>
+                            <th class="text-center">Old Values</th>
+                            <th class="text-center">New Values</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        var objAuditLogTable;
+    </script>
+    <script src="~/JsController/AuditLog/AuditLog.js"></script>
+}

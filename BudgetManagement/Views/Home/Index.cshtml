@@ -1,0 +1,121 @@
+﻿<style>
+	.rounded-top-right-bottom-left {
+		border-top-right-radius: 15px;
+		border-bottom-left-radius: 15px;
+	}
+</style>
+<body>
+	<div class="row">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 text-center">
+					<h1 class="dashboard-title">Budget Management Dashboard</h1>
+					<table id="compress-table" class="display nowrap float-right table-responsive-sm" style="width:5%">
+						<thead>
+							<tr>
+								<th class="text-center">From Acc</th>
+
+								<th class="text-center">Date</th>
+								<th class="text-center">Type</th>
+								<th class="text-center">Amount</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row d-flex justify-content-around">
+			<div class="col-md-3 card my-5 shadow-lg bg-white rounded rounded rounded-top-right-bottom-left">
+				<a href="Account/Client"><img src="~/Images/client_img.jpg" class="card-img-top" alt="Clients"></a>
+				<div class="card-body text-center">
+					<i class="fas fa-users fa-3x mb-2"></i>
+					<h5 class="card-title">Clients</h5>
+					<a href="Account/Client" class="btn btn-info" id="client">Go to Clients</a>
+				</div>
+			</div>
+			<div class="col-md-3 card my-5 shadow-lg bg-white rounded rounded rounded-top-right-bottom-left">
+				<a href="Account/Business"><img src="~/Images/businees_img_1.jpg" class="card-img-top" alt="Businesses"></a>
+				<div class="card-body text-center">
+					<i class="fas fa-building fa-3x mb-2"></i>
+					<h5 class="card-title">Businesses</h5>
+					<a href="Account/Business" class="btn btn-info" id="bussiness">Go to Businesses</a>
+				</div>
+			</div>
+			<div class="col-md-3 card my-5 shadow-lg bg-white rounded rounded rounded-top-right-bottom-left">
+				<a href="Account/Partner"><img src="~/Images/partner_img.jpeg" class="card-img-top" alt="Partners"></a>
+				<div class="card-body text-center">
+					<i class="fas fa-handshake fa-3x mb-2"></i>
+					<h5 class="card-title">Partners</h5>
+					<a href="Account/Partner" class="btn btn-info" id="partners">Go to Partners</a>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-around">
+			<div class="col-md-3 card my-5 shadow-lg bg-white rounded">
+				<a href="Account/Contractor"><img src="~/Images/contractor.jpg" class="card-img-top" alt="Contractors"></a>
+				<div class="card-body text-center">
+					<i class="fas fa-hard-hat fa-3x mb-2"></i>
+					<h5 class="card-title">Contractors</h5>
+					<a href="Account/Contractor" class="btn btn-info" id="contractors">Go to Contractors</a>
+				</div>
+			</div>
+			<div class="col-md-3 card my-5 shadow-lg bg-white rounded">
+				<a href="Project/Project"><img src="~/Images/project_img.jpg" class="card-img-top" alt="Project"></a>
+				<div class="card-body text-center">
+					<i class="fas fa-project-diagram fa-3x mb-2"></i>
+					<h5 class="card-title">Projects</h5>
+					<a href="Project/Project" class="btn btn-info" id="projects">Go to Projects</a>
+				</div>
+			</div>
+			<div class="col-md-3 card my-5 shadow-lg bg-white rounded">
+				<a href="ManageExpence/AddExpence"><img src="~/Images/expense.jpg" class="card-img-top" alt="Expenses"></a>
+				<div class="card-body text-center">
+					<i class="fas fa-money-bill-wave fa-3x mb-2"></i>
+					<h5 class="card-title">Expenses</h5>
+					<a href="ManageExpence/AddExpence" class="btn btn-info" id="expenses">Go to Expenses</a>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-around">
+			<div class="col-md-3 my-5 card shadow-lg bg-white rounded">
+				<a href="Home/ProjectTransaction"><img src="~/Images/Project_transaction.jpg" class="card-img-top" alt="ProjectTransaction"></a>
+				<div class="card-body text-center">
+					<i class="fa-solid fa-money-check-dollar fa-3x mb-2"></i>
+					<h5 class="card-title">ProjectTransactions</h5>
+					<a href="Home/ProjectTransaction" class="btn btn-info" id="transaction">Go to ProjectTransactions</a>
+				</div>
+			</div>
+			<div class="col-md-3 my-5 card shadow-lg bg-white rounded">
+				<a href="SalaryMapping/Salary"><img src="~/Images/salary_img.jpg" class="card-img-top" alt="Salary"></a>
+				<div class="card-body text-center">
+					<i class="fa-solid fa-money-bill-transfer fa-3x mb-2"></i>
+					<h5 class="card-title">ProjectAssigning</h5>
+					<a href="SalaryMapping/Salary" class="btn btn-info" id="salary">Go to ProjectAssigning</a>
+				</div>
+			</div>
+			<div class="col-md-3 my-5 card shadow-lg bg-white rounded">
+				<a href="GenerateSalary/GenerateSalary"><img src="~/Images/Generate_Salary_img.jpg" class="card-img-top" alt="GenerateSalary"></a>
+				<div class="card-body text-center">
+					<i class="fa-solid fa-sack-dollar fa-3x mb-2"></i>
+					<h5 class="card-title">GenerateSalary</h5>
+					<a href="GenerateSalary/GenerateSalary" class="btn btn-info" id="generatesalary">Go to GenerateSalary</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+@section scripts {
+	<script>
+		var ObjCompressTable;
+	</script>
+	<script src="~/JsController/GenerateSalary/GenerateSalary.js"></script>
+}
+
+
+
+
