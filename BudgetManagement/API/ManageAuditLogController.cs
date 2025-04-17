@@ -1,5 +1,6 @@
 ﻿using ExpenseManagment.Data;
 using ExpenseManagment.Filters;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,21 +24,8 @@ namespace ExpenseManagment.API
         {
             try
             {
-                var data = await db.AuditLogs
-                    .Select(g => new
-                    {
-                        g.Timestamp,
-                        g.UserEmail,
-                        g.UserId,
-                        g.ActionType,
-                        g.TableName,
-                        g.KeyValues,
-                        g.OldValues,
-                        g.NewValues,
-                    })
-                    .ToListAsync();
-
-                return Ok(data);
+                var auditLog = db.AuditLogs.ToListAsync();
+                return Ok(auditLog);
             }
             catch (Exception)
             {
