@@ -4,6 +4,7 @@ using ExpenseManagment.Data;
 using ExpenseManagment.Data.DataBaseEntities;
 using ExpenseManagment.Filters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,35 +24,29 @@ namespace ExpenseManagment.API
         [HttpGet("Account/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await db.AccountEntities.FirstOrDefaultAsync(x => x.Id == id));
+            var getAccount = await db.AccountEntities.FindAsync(id);
+            return Ok(getAccount);
         }
+
         [AjaxExceptionFilter]
         [HttpPut("EditAccount")]
         public async Task<IActionResult> EditClient(AccountModel model)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var clientInDb = await db.AccountEntities.FirstOrDefaultAsync(x => x.Id == model.Id);
-                    if (clientInDb != null)
-                    {
+                var clientInDb = await db.AccountEntities.FirstOrDefaultAsync(x => x.Id == model.Id);
+                if (clientInDb == null)
+                    return NotFound();
 
-                        clientInDb.AccName = model.Name;
-                        clientInDb.Email = model.Email;
-                        clientInDb.Cell = model.Cell;
-                        clientInDb.WebSiteLink = model.WebSiteLink;
-                        clientInDb.Desc = model.Desc;
-                        db.AccountEntities.Update(clientInDb);
-                        if (await db.DbSaveChangesAsync()) // Corrected method name
-                        {
-                            return Ok();
-                        }
-                        return StatusCode(500, Helper.ErrorInSaveChanges);
-                    }
-                    return StatusCode(500, Helper.ObjectNotFound);
-                }
-                return StatusCode(500, Helper.InvalidModelState);
+                clientInDb.AccName = model.Name;
+                clientInDb.Email = model.Email;
+                clientInDb.Cell = model.Cell;
+                clientInDb.WebSiteLink = model.WebSiteLink;
+                clientInDb.Desc = model.Desc;
+                await db.DbSaveChangesAsync();
+
+                return Ok(clientInDb);
+
             }
             catch (Exception exp)
             {
@@ -62,27 +57,24 @@ namespace ExpenseManagment.API
         [HttpDelete("DeleteAccount/{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
-
-
             try
             {
                 var deleteAccount = await db.AccountEntities.FindAsync(id);
-                if (deleteAccount != null)
-                {
-                    db.AccountEntities.Remove(deleteAccount);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
-                }
-                return StatusCode(500, Helper.ObjectNotFound);
+
+                if (deleteAccount == null)
+                    return NotFound("Account not found.");
+
+                db.AccountEntities.Remove(deleteAccount);
+                await db.DbSaveChangesAsync();
+
+                return Ok("Account deleted successfully.");
             }
             catch (Exception exp)
             {
                 return StatusCode(500, Helper.ObjectNotFound + exp.Message);
             }
         }
+
 
 
         // Get : Clients
@@ -93,7 +85,8 @@ namespace ExpenseManagment.API
         [Authorize(Roles = Helper.RolesAttrVal.Client)]
         public async Task<IActionResult> GetClients()
         {
-            return Ok(await db.AccountEntities.Where(x => x.AccountTypeId == (int)Helper.AccountTypeId.client).OrderByDescending(x => x.Id).ToListAsync());
+            var getClients = await db.AccountEntities.Where(x=>x.AccountTypeId==(int)Helper.AccountTypeId.client).OrderByDescending(x => x.Id).ToListAsync();
+            return Ok(getClients);
         }
 
         // Post : Client
