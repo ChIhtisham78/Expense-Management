@@ -77,6 +77,21 @@ namespace ExpenseManagment.API
 
 
 
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return NotFound("File Not Found");
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", file.FileName);
+            using (var stream = new FileStream(filePath,FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            return Ok(new { filePath}); 
+
+        }
+
+
         // Get : Clients
 
         #region
