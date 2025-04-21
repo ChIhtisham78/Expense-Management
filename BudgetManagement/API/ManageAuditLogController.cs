@@ -25,7 +25,7 @@ namespace ExpenseManagment.API
         {
             try
             {
-                var auditLog = db.AuditLogs.ToListAsync();
+                var auditLog = await db.AuditLogs.ToListAsync();
                 return Ok(auditLog);
             }
             catch (Exception)
