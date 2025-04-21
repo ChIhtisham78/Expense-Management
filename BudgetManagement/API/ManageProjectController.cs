@@ -32,27 +32,28 @@ namespace ExpenseManagment.API
         [HttpPost("Project")]
         public async Task<IActionResult> AddNewProject(ProjectModel model)
         {
-            
+
             try
             {
 
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    var newProject = new Project
-                    {
-                        ClientId = model.ClientId,
-                        ProjectName = model.ProjectName,
-                        InsertionDate = DateTime.Now,
-                        ContractorEffectivePercent = model.ContractorEffectivePercent
-                    };
-                    db.Projects.Add(newProject);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
+                    return StatusCode(400, Helper.InvalidModelState);
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+                var newProject = new Project
+                {
+                    ClientId = model.ClientId,
+                    ProjectName = model.ProjectName,
+                    InsertionDate = DateTime.Now,
+                    ContractorEffectivePercent = model.ContractorEffectivePercent
+                };
+
+                db.Projects.Add(newProject);
+                await db.SaveChangesAsync();
+
+                return Ok("Project added successfully");
+
             }
             catch (Exception exp)
             {
@@ -63,57 +64,69 @@ namespace ExpenseManagment.API
         [HttpGet("Project/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await db.Projects.Include(x => x.Client).FirstOrDefaultAsync(x => x.Id == id));
+            var project = db.Projects.Include(x => x.Client).FirstOrDefaultAsync(x => x.Id == id);
+            return Ok(project);
         }
 
         [AjaxExceptionFilter]
         [HttpPut("Project")]
-        public async Task<IActionResult> EditProject(ProjectModel model)
+        public async Task<IActionResult> EditProject(int id, [FromBody] ProjectModel model)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(Helper.InvalidModelState);
+            }
+
             try
             {
-                if (ModelState.IsValid)
+                var projectInDb = await db.Projects.FindAsync(id);
+
+                if (projectInDb == null)
                 {
-                    var projectInDb = await db.Projects.FirstOrDefaultAsync(x => x.Id == model.Id);
-                    if (projectInDb != null)
-                    {
-                        projectInDb.ClientId = model.ClientId;
-                        projectInDb.ProjectName = model.ProjectName;
-                        projectInDb.ContractorEffectivePercent = model.ContractorEffectivePercent;
-                        if (await db.DbSaveChangesAsync())
-                        {
-                            return Ok();
-                        }
-                        return StatusCode(500, Helper.ErrorInSaveChanges);
-                    }
-                    return StatusCode(500, Helper.ObjectNotFound);
+                    return NotFound(Helper.ObjectNotFound); 
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+                projectInDb.ClientId = model.ClientId;
+                projectInDb.ProjectName = model.ProjectName;
+                projectInDb.ContractorEffectivePercent = model.ContractorEffectivePercent;
+
+                db.Projects.Update(projectInDb);
+                await db.SaveChangesAsync();
+
+                return Ok();
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
+
 
         [AjaxExceptionFilter]
         [HttpDelete("DeleteProject/{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {
-            
-
-            var deleteProject = await db.Projects.FindAsync(556);
-            if (deleteProject != null)
+            try
             {
-                db.Projects.Remove(deleteProject);
-                if (await db.DbSaveChangesAsync())
+                var deleteProject = await db.Projects.FindAsync(id);
+
+                if (deleteProject == null)
                 {
-                    return Ok();
+                    return NotFound("Project Not Found");
                 }
-                return StatusCode(500, Helper.ErrorInSaveChanges);
+
+                db.Projects.Remove(deleteProject);
+
+                await db.SaveChangesAsync();
+
+                return Ok("Project Deleted Successfully");
             }
-            return StatusCode(500, Helper.ObjectNotFound);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
     }
 }
