@@ -1,4 +1,5 @@
-﻿using ExpenseManagment.Custom;
+﻿using System.Diagnostics;
+using ExpenseManagment.Custom;
 using ExpenseManagment.Data;
 using ExpenseManagment.Data.Common;
 using ExpenseManagment.Data.DataBaseEntities;
@@ -18,16 +19,17 @@ namespace ExpenseManagment.API
         {
             db = _db;
         }
+
         [HttpGet("BusinessCapitalTransaction")]
         [Authorize(Roles = Helper.RolesAttrVal.AddCapitalToBusiness)]
         public async Task<IActionResult> GetBusinessCapitalTransaction()
         {
-            return Ok(await db.Transactions.
-                Include(x => x.Invoice).
-                Include(x => x.Invoice.AccountEntities).
-                Where(x => x.Invoice.InvoiceType == (int)Helper.InvoiceTypeId.BusinessCapitalAccountTransaction).
-                OrderByDescending(x => x.Id).
-                Select(x => new
+            var result = await db.Transactions
+                .Include(x => x.Invoice)
+                .Include(x => x.Invoice.AccountEntities)
+                .Where(x => x.Invoice.InvoiceType == (int)Helper.InvoiceTypeId.BusinessCapitalAccountTransaction)
+                .OrderByDescending(x => x.Id)
+                .Select(x => new
                 {
                     TransactionId = x.Id,
                     x.TransactionDate,
@@ -35,80 +37,100 @@ namespace ExpenseManagment.API
                     Payee = x.Invoice.AccountEntities.AccName,
                     Recipient = db.AccountEntities.FirstOrDefault(c => c.Id == x.BeneficiaryAccountId).AccName,
                     x.Desc,
-                }).ToListAsync());
+                }).ToListAsync();
+
+            return Ok(result);
         }
+
         [AjaxExceptionFilter]
         [HttpPost("BusinessCapitalTransaction")]
         public async Task<IActionResult> PostBusinessCapitalTransaction(Transaction model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid model state");
+
             try
             {
-                if (ModelState.IsValid)
+                var capitalAccount = await db.AccountEntities
+                    .SingleOrDefaultAsync(x => x.AccountTypeId == (int)Helper.AccountTypeId.BusinessCapitalAccount);
+
+                if (capitalAccount == null)
+                    return NotFound("Business Capital Account not found");
+
+                var invoice = new Invoice
                 {
-                    int CapitalAccountInDbId = db.AccountEntities.Single(x => x.AccountTypeId == (int)Helper.AccountTypeId.BusinessCapitalAccount).Id;
+                    AccountId = capitalAccount.Id,
+                    IsPayable = false,
+                    Amount = model.Amount,
+                    Desc = model.Desc,
+                    InvoiceReffId = 0,
+                    InvoiceDate = model.TransactionDate,
+                    InvoiceType = (int)Helper.InvoiceTypeId.BusinessCapitalAccountTransaction
+                };
 
-                    Invoice invoice = new Invoice();
-                    invoice.AccountId = CapitalAccountInDbId;
-                    invoice.IsPayable = false;
-                    invoice.Amount = model.Amount;
-                    invoice.Desc = model.Desc;
-                    invoice.InvoiceReffId = 0;// Capital Transaction Reff will be 0
-                    invoice.InvoiceDate = model.TransactionDate;
-                    invoice.InvoiceType = (int)Helper.InvoiceTypeId.BusinessCapitalAccountTransaction;
-                    db.Invoices.Add(invoice);
-                    await db.DbSaveChangesAsync();
+                await db.Invoices.AddAsync(invoice);
+                await db.SaveChangesAsync();
 
-                    Transaction transaction = new Transaction();
-                    transaction.InvoiceId = invoice.Id;
-                    transaction.Amount = model.Amount;
-                    transaction.BeneficiaryAccountId = model.BeneficiaryAccountId;
-                    transaction.Desc = model.Desc;
-                    transaction.TransactionDate = model.TransactionDate;
-                    transaction.CreateOn = DateTime.Now;
-                    transaction.CreatedBy = User.Identity.Name;
-                    db.Transactions.Add(transaction);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
-                }
-                return StatusCode(500, Helper.InvalidModelState);
+                var transaction = new Transaction
+                {
+                    InvoiceId = invoice.Id,
+                    Amount = model.Amount,
+                    BeneficiaryAccountId = model.BeneficiaryAccountId,
+                    Desc = model.Desc,
+                    TransactionDate = model.TransactionDate,
+                    CreateOn = DateTime.Now,
+                    CreatedBy = User.Identity?.Name
+                };
+
+                await db.Transactions.AddAsync(transaction);
+
+                await db.SaveChangesAsync();
+                return Ok("Business capital transaction saved successfully");
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal server error: {ex.Message}");
             }
         }
+
 
         [HttpGet("ProjectTransaction")]
         [Authorize(Roles = Helper.RolesAttrVal.ProjectTransaction)]
-
         public async Task<IActionResult> ProjectTransaction()
         {
-            var result = await (from invoice in db.Invoices
-                                join trans in db.Transactions
-                                on invoice.Id equals trans.InvoiceId
-                                join accname in db.AccountEntities
-                                on invoice.AccountId equals accname.Id
-                                join proj in db.Projects
-                                on invoice.InvoiceReffId equals proj.Id
-                                where invoice.InvoiceType == (int)Helper.InvoiceTypeId.BusinessInvoice
-                                select new
-                                {
-                                    Id = invoice.Id,
-                                    ProjectId = proj.Id,
-                                    AccountId = accname.Id,
-                                    accname.AccName,
-                                    proj.ProjectName,
-                                    invoice.Amount,
-                                    invoice.InvoiceReffId,
-                                    trans.TransactionDate,
-                                    invoice.Desc,
+            try
+            {
+                var projectTransactions = await (
+                    from invoice in db.Invoices
+                    join trans in db.Transactions on invoice.Id equals trans.InvoiceId into transGroup
+                    from trans in transGroup.DefaultIfEmpty()
+                    join account in db.AccountEntities on invoice.AccountId equals account.Id into accountGroup
+                    from account in accountGroup.DefaultIfEmpty()
+                    join project in db.Projects on invoice.InvoiceReffId equals project.Id into projectGroup
+                    from project in projectGroup.DefaultIfEmpty()
+                    where invoice.InvoiceType == (int)Helper.InvoiceTypeId.BusinessInvoice
+                    select new
+                    {
+                        InvoiceId = invoice.Id,
+                        ProjectId = project.Id,
+                        ProjectName = project.ProjectName,
+                        AccountId = account.Id,
+                        AccountName = account.AccName,
+                        InvoiceAmount = invoice.Amount,
+                        InvoiceReffId = invoice.InvoiceReffId,
+                        TransactionDate = trans.TransactionDate,
+                        Description = invoice.Desc
+                    }
+                ).ToListAsync();
 
-                                }).ToListAsync();
-            return Ok(result);
+                return Ok(projectTransactions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         [AjaxExceptionFilter]
         [HttpPost("ProjectTransaction")]
@@ -116,36 +138,41 @@ namespace ExpenseManagment.API
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-
-                    Invoice invoice = new Invoice();
-                    invoice.AccountId = model.ClientId;
-                    invoice.IsPayable = true;
-                    invoice.Amount = model.Amount;
-                    invoice.Desc = model.Desc;
-                    invoice.InvoiceReffId = model.ProjectId;
-                    invoice.InvoiceDate = model.TransactionDate;
-                    invoice.InvoiceType = (int)Helper.InvoiceTypeId.BusinessInvoice;
-                    db.Invoices.Add(invoice);
-                    await db.DbSaveChangesAsync();
-
-                    Transaction transaction = new Transaction();
-                    transaction.InvoiceId = invoice.Id;
-                    transaction.Amount = model.Amount;
-                    transaction.BeneficiaryAccountId = (int)Helper.AccountTypeId.IncomeAccountOfBusiness;
-                    transaction.Desc = model.Desc;
-                    transaction.TransactionDate = model.TransactionDate;
-                    transaction.CreateOn = DateTime.Now;
-                    transaction.CreatedBy = User.Identity.Name;
-                    db.Transactions.Add(transaction);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
+                    return StatusCode(400, Helper.InvalidModelState);
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+
+                var invoice = new Invoice
+                {
+                    AccountId = model.ClientId,
+                    IsPayable = false,
+                    Amount = model.Amount,
+                    Desc = model.Desc,
+                    InvoiceReffId = model.ProjectId,
+                    InvoiceDate = model.TransactionDate,
+                    InvoiceType = (int)Helper.InvoiceTypeId.BusinessInvoice
+                };
+
+                await db.DbSaveChangesAsync();
+
+                var transaction = new Transaction
+                {
+                    InvoiceId = invoice.Id,
+                    Amount = model.Amount,
+                    BeneficiaryAccountId = (int)Helper.AccountTypeId.IncomeAccountOfBusiness,
+                    Desc = model.Desc,
+                    TransactionDate = model.TransactionDate,
+                    CreateOn = DateTime.Now,
+                    CreatedBy = User.Identity?.Name
+                };
+
+                await db.Transactions.AddAsync(transaction);
+                await db.SaveChangesAsync();
+
+                return Ok("Project transaction saved successfully");
+
             }
             catch (Exception exp)
             {

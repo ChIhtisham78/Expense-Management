@@ -1,4 +1,5 @@
-﻿using ExpenseManagment.Data;
+﻿using ExpenseManagment.Custom;
+using ExpenseManagment.Data;
 using ExpenseManagment.Data.DataBaseEntities;
 using ExpenseManagment.Filters;
 using ExpenseManagment.Models;
@@ -53,33 +54,33 @@ namespace ExpenseManagment.API
         {
             try
             {
-                var existInDb = db.Invoices.Any(x => x.AccountId == model.AccountId);
-                if (existInDb != true)
-                {
-                    var salary = await db.GeneratedSallaries.FindAsync(model.Id);
-                    var invoice = new Invoice()
-                    {
-                        AccountId = salary.AccountId,
-                        IsPayable = false,
-                        Amount = salary.GrossTotal,
-                        //Desc = "Description of the invoice", 
-                        InvoiceReffId = salary.ProjectId,
-                        InvoiceDate = DateTime.Now,
-                        InvoiceType = 4
-                    };
+                bool invoiceExists = await db.Invoices.AnyAsync(x => x.AccountId == model.AccountId);
+                if (invoiceExists)
+                    return Conflict("An invoice for this account already exists.");
 
-                    db.Invoices.Add(invoice);
-                    await db.SaveChangesAsync();
-                    return Ok("Invoice generated successfully");
-                }
-                else
+                var salary = await db.GeneratedSallaries.FindAsync(model.Id);
+                if (salary == null)
+                    return NotFound("Salary data not found for the provided ID.");
+
+                var invoice = new Invoice
                 {
-                    return Ok("Invoice already!!");
-                }
+                    AccountId = salary.AccountId,
+                    IsPayable = false,
+                    Amount = salary.GrossTotal,
+                    InvoiceReffId = salary.ProjectId,
+                    InvoiceDate = DateTime.UtcNow,
+                    InvoiceType = (int)Helper.InvoiceTypeId.SallaryInvoice
+                };
+
+                await db.Invoices.AddAsync(invoice);
+                await db.SaveChangesAsync();
+
+                return Ok("Invoice generated successfully.");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                // Optionally log the exception
+                return StatusCode(500, $"An error occurred while generating invoice: {ex.Message}");
             }
         }
 
