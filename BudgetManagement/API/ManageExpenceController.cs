@@ -156,6 +156,7 @@ namespace ExpenseManagment.API
             }
         }
 
+        [ValidateAntiForgeryToken]
         [AjaxExceptionFilter]
         [HttpDelete("DeleteExpence/{id}")]
         public async Task<IActionResult> DeleteExpence(int id)
