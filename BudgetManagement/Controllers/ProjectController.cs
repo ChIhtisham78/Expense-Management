@@ -4,7 +4,7 @@ namespace ExpenseManagment.Controllers
 {
     public class ProjectController : Controller
     {
-        public IActionResult Project()
+       public IActionResult Project()
         {
             return View();
         }
