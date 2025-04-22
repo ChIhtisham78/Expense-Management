@@ -97,7 +97,6 @@ namespace ExpenseManagment.API
             {
                 return NotFound("User not found.");
             }
-
             var userViewModel = new UserViewModel
             {
                 Id = user.Id,
