@@ -138,13 +138,10 @@ namespace ExpenseManagment.API
                     .AnyAsync(s => s.GeneratedSalaryMonth == salaryMonth);
 
                 if (existingSalaries)
-                {
-                    return Ok("SalariesGenerated");
-                }
+                   return Ok("SalariesGenerated");
+                
                 else
-                {
-                    return Ok("SalariesNotGenerated");
-                }
+                  return Ok("SalariesNotGenerated");
             }
             catch (Exception ex)
             {
