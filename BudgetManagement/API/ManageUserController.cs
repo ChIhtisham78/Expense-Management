@@ -92,7 +92,7 @@ namespace ExpenseManagment.API
         [HttpGet("EditUserData/{id}")]
         public async Task<IActionResult> EditUserData(string id)
         {
-            var user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await db.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound("User not found.");
