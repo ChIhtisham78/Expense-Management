@@ -89,11 +89,13 @@ namespace ExpenseManagment.API
         [HttpGet("Project")]
         public async Task<IActionResult> Project()
         {
-            return Ok(await db.Projects.Select(x => new
+            var result = await db.Projects.Select(x => new
             {
                 Value = x.Id.ToString(),
                 Text = x.ProjectName.ToString()
-            }).ToListAsync());
+            }).ToListAsync();
+
+            return Ok(result);
         }
 
         [HttpGet("SingleProject")]
