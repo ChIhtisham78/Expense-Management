@@ -64,7 +64,7 @@ namespace ExpenseManagment.API
         [HttpGet("Project/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var project = db.Projects.Include(x => x.Client).FirstOrDefaultAsync(x => x.Id == id);
+            var project = await db.Projects.Include(x => x.Client).FirstOrDefaultAsync(x => x.Id == id);
             return Ok(project);
         }
 
