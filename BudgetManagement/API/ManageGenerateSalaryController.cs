@@ -23,21 +23,7 @@ namespace ExpenseManagment.API
         {
             try
             {
-                var data = await db.GeneratedSallaries
-                    .Select(g => new
-                    {
-                        g.Id,
-                        AccName = g.Account.AccName,
-                        ProjectName = g.Project.ProjectName,
-                        g.BasicAmount,
-                        g.BonusAmount,
-                        g.GrossPercentAmount,
-                        g.GrossTotal,
-                        g.InsertionDate,
-                        g.GeneratedSalaryMonth,
-                        g.AccountId
-                    })
-                    .ToListAsync();
+                var data = await db.GeneratedSallaries.ToListAsync();
                 return Ok(data);
             }
             catch (Exception)
