@@ -24,29 +24,32 @@ namespace ExpenseManagment.API
 
         [HttpGet("GetUsers")]
         [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsersAsync()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
             {
-                return NotFound($"Unable to load current user.");
+                return NotFound("Unable to load current user.");
             }
 
-            var users = db.Users.Select(u => new UserViewModel
-            {
-                Id = u.Id,
-                Name = u.Name,
-                Address = u.Address,
-                City = u.City,
-                ZipCode = u.ZipCode,
-                Email = u.Email,
-                Password = u.Password,
-                IsCompleted = !string.IsNullOrEmpty(u.Address) &&
-                              !string.IsNullOrEmpty(u.Name) &&
-                              !string.IsNullOrEmpty(u.City) &&
-                              !string.IsNullOrEmpty(u.ZipCode) &&
-                              u.Id == currentUser.Id
-            }).ToList();
+            var users = await db.Users
+                .Select(u => new UserViewModel
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Address = u.Address,
+                    City = u.City,
+                    ZipCode = u.ZipCode,
+                    Email = u.Email,
+                    Password = u.Password,
+                    IsCompleted = !string.IsNullOrEmpty(u.Address) &&
+                                  !string.IsNullOrEmpty(u.Name) &&
+                                  !string.IsNullOrEmpty(u.City) &&
+                                  !string.IsNullOrEmpty(u.ZipCode) &&
+                                  u.Id == currentUser.Id
+                })
+                .ToListAsync();
+
             foreach (var user in users)
             {
                 var userEntity = await _userManager.FindByIdAsync(user.Id);
