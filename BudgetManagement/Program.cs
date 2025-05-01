@@ -90,7 +90,7 @@ using (var scope = app.Services.CreateScope())
 
     var _roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
     var _userManager = service.GetRequiredService<UserManager<ApplicationUser>>();
-    var dbContext = service.GetRequiredService<ApplicationDbContext>(); // Get the ApplicationDbContext
+    var dbContext = service.GetRequiredService<ApplicationDbContext>(); 
 
     IdentitySeed.SeedData(_userManager, _roleManager);
     DefaultSeeding.seedDefaultAccounts(dbContext);

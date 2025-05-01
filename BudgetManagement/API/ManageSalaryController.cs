@@ -4,6 +4,7 @@ using ExpenseManagment.Data.Common;
 using ExpenseManagment.Data.DataBaseEntities;
 using ExpenseManagment.Filters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
@@ -117,114 +118,121 @@ namespace ExpenseManagment.API
         [HttpPost]
         public async Task<IActionResult> Post(SalaryModel model)
         {
-            
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    if (db.SallaryMappings.FirstOrDefault(x => x.AccountId == model.AccountId && !x.IsDeleted) == null)
+                    return StatusCode(500, Helper.InvalidModelState);
+                }
+
+                var existingSalary = db.SallaryMappings
+                    .FirstOrDefault(x => x.AccountId == model.AccountId && !x.IsDeleted);
+
+                if (existingSalary != null)
+                {
+                    return ResponseResult(true, message: "Already Exists");
+                }
+
+                var salaryMapping = new SallaryMapping
+                {
+                    AccountId = model.AccountId,
+                    ProjectId = model.SingleProjectId,
+                    InsertionDate = DateTime.UtcNow,
+                    BasicAmount = model.BasicAmount
+                };
+
+                db.SallaryMappings.Add(salaryMapping);
+                await db.DbSaveChangesAsync();
+
+                if (!string.IsNullOrEmpty(model.MultipleProjectId))
+                {
+                    var projectIds = model.MultipleProjectId
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(id => int.Parse(id.Trim()));
+
+                    foreach (var projectId in projectIds)
                     {
-                        SallaryMapping objsallary = new SallaryMapping
+                        var effectiveMapping = new EffectivePercentProjectMapping
                         {
-                            AccountId = model.AccountId,
-                            ProjectId = model.SingleProjectId,
-                            InsertionDate = DateTime.Now,
-                            BasicAmount = model.BasicAmount
+                            SallaryMappingId = salaryMapping.Id,
+                            ProjectId = projectId
                         };
-                        db.SallaryMappings.Add(objsallary);
-                        await db.DbSaveChangesAsync();
-
-                        if (!string.IsNullOrEmpty(model.MultipleProjectId))
-                        {
-                            int[] intArray = model.MultipleProjectId.Split(',').Select(int.Parse).ToArray();
-                            foreach (var item in intArray)
-                            {
-                                EffectivePercentProjectMapping obj = new EffectivePercentProjectMapping
-                                {
-                                    SallaryMappingId = objsallary.Id,
-                                    ProjectId = item,
-                                };
-                                db.EffectivePercentProjectMappings.Add(obj);
-                            }
-                        }
-
-                        if (await db.DbSaveChangesAsync())
-                        {
-                            return Ok();
-                        }
-                        return StatusCode(500, Helper.ErrorInSaveChanges);
-                    }
-                    else
-                    {
-                        return ResponseResult(true, message: "Already Exists");
+                        db.EffectivePercentProjectMappings.Add(effectiveMapping);
                     }
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+                var saveResult = await db.DbSaveChangesAsync();
+                return Ok(saveResult);
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(500, $"{Helper.ObjectNotFound}{ex.Message}");
             }
         }
+
 
         [AjaxExceptionFilter]
         [HttpPut]
         public async Task<IActionResult> Put(SalaryModel model)
         {
-            
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    if (db.SallaryMappings.FirstOrDefault(x => x.AccountId == model.AccountId && x.Id != model.Id && !x.IsDeleted) == null)
+                    return StatusCode(500, Helper.InvalidModelState);
+                }
+
+                var duplicateSalary = db.SallaryMappings
+                    .FirstOrDefault(x => x.AccountId == model.AccountId && x.Id != model.Id && !x.IsDeleted);
+
+                if (duplicateSalary != null)
+                {
+                    return ResponseResult(true, message: "Already Exists");
+                }
+
+                var existingSalary = await db.SallaryMappings.FindAsync(model.Id);
+                if (existingSalary == null)
+                {
+                    return NotFound(Helper.ObjectNotFound);
+                }
+
+                existingSalary.AccountId = model.AccountId;
+                existingSalary.ProjectId = model.SingleProjectId;
+                existingSalary.BasicAmount = model.BasicAmount;
+
+                var existingMappings = db.EffectivePercentProjectMappings
+                    .Where(epm => epm.SallaryMappingId == existingSalary.Id)
+                    .ToList();
+
+                db.EffectivePercentProjectMappings.RemoveRange(existingMappings);
+
+                if (!string.IsNullOrEmpty(model.MultipleProjectId))
+                {
+                    var projectIds = model.MultipleProjectId
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(id => int.Parse(id.Trim()));
+
+                    foreach (var projectId in projectIds)
                     {
-                        var existingSalary = await db.SallaryMappings.FindAsync(model.Id);
-
-                        if (existingSalary == null)
+                        var newMapping = new EffectivePercentProjectMapping
                         {
-                            return NotFound(Helper.ObjectNotFound);
-                        }
-
-                        existingSalary.AccountId = model.AccountId;
-                        existingSalary.ProjectId = model.SingleProjectId;
-                        existingSalary.BasicAmount = model.BasicAmount;
-
-                        var existingMappings = db.EffectivePercentProjectMappings.Where(epm => epm.SallaryMappingId == existingSalary.Id);
-                        db.EffectivePercentProjectMappings.RemoveRange(existingMappings);
-
-                        if (!string.IsNullOrEmpty(model.MultipleProjectId))
-                        {
-                            int[] intArray = model.MultipleProjectId.Split(',').Select(int.Parse).ToArray();
-
-                            foreach (var item in intArray)
-                            {
-                                EffectivePercentProjectMapping obj = new EffectivePercentProjectMapping
-                                {
-                                    SallaryMappingId = existingSalary.Id,
-                                    ProjectId = item,
-                                };
-                                db.EffectivePercentProjectMappings.Add(obj);
-                            }
-                        }
-
-                        if (await db.DbSaveChangesAsync())
-                        {
-                            return Ok();
-                        }
-                        return StatusCode(500, Helper.ErrorInSaveChanges);
-                    }
-                    else
-                    {
-                        return ResponseResult(true, message: "Already Exists");
+                            SallaryMappingId = existingSalary.Id,
+                            ProjectId = projectId
+                        };
+                        db.EffectivePercentProjectMappings.Add(newMapping);
                     }
                 }
-                return StatusCode(500, Helper.InvalidModelState);
-            }
-            catch (Exception exp)
+
+                var saveResult = await db.DbSaveChangesAsync();
+                
+                return Ok(saveResult);
+                            }
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(500, $"{Helper.ObjectNotFound}{ex.Message}");
             }
         }
+
 
         [AjaxExceptionFilter]
         [HttpDelete("{id}")]

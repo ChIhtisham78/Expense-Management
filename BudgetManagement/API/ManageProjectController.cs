@@ -105,7 +105,7 @@ namespace ExpenseManagment.API
 
         [AjaxExceptionFilter]
         [HttpDelete("DeleteProject/{id}")]
-        public async Task<IActionResult> DeleteProject(int id)
+        public async Task<IActionResult> DeleteProject(int id)                                      
         {
             try
             {
