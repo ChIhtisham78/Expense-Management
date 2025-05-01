@@ -24,7 +24,7 @@ namespace ExpenseManagment.API
 
         [HttpGet("GetUsers")]
         [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsersAsync()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
