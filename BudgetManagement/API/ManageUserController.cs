@@ -68,26 +68,31 @@ namespace ExpenseManagment.API
         [HttpPost("SaveUserData")]
         public async Task<IActionResult> SaveUserData([FromBody] UserViewModel model)
         {
-            ApplicationUser user = new ApplicationUser();
-            user.UserName = model.Email.ToUpper();
-            user.Email = model.Email;
+            if (model == null)
+            {
+                return BadRequest("Invalid user data.");
+            }
+            var user = new ApplicationUser
+            {
+                UserName = model.Email.ToUpper(),
+                Email = model.Email,
+                EmailConfirmed = true, 
+                Address = model.Address,
+                Name = model.Name,
+                City = model.City,
+                ZipCode = model.ZipCode
+            };
 
-            var result = await _userManager.CreateAsync(user);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                user.Address = model.Address;
-                user.Name = model.Name;
-                user.City = model.City;
-                user.Password = model.Password;
-                user.ZipCode = model.ZipCode;
-                user.EmailConfirmed = true;
                 await db.SaveChangesAsync();
-
                 return Ok(user);
             }
 
-            return StatusCode(500, result.Errors.First().Description.ToString());
+            var errorDescription = result.Errors.FirstOrDefault()?.Description ?? "An unknown error occurred.";
+            return StatusCode(500, errorDescription);
         }
 
 
