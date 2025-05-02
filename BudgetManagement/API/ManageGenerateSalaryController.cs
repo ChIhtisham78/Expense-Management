@@ -130,24 +130,21 @@ namespace ExpenseManagment.API
         {
             try
             {
-                var monthString = DateTime.Now.ToString("MMM");
+                var currentMonth = DateTime.Now.ToString("MMM");
                 var currentYear = DateTime.Now.ToString("yy");
-                var salaryMonth = monthString + "-" + currentYear;
+                var salaryMonth = $"{currentMonth}-{currentYear}";
 
-                var existingSalaries = await db.GeneratedSallaries
+                var salariesGenerated = await db.GeneratedSallaries
                     .AnyAsync(s => s.GeneratedSalaryMonth == salaryMonth);
 
-                if (existingSalaries)
-                   return Ok("SalariesGenerated");
-                
-                else
-                  return Ok("SalariesNotGenerated");
+                return Ok(salariesGenerated ? "SalariesGenerated" : "SalariesNotGenerated");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
 
     }
 }
