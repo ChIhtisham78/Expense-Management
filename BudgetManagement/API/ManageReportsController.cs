@@ -80,21 +80,21 @@ namespace ExpenseManagment.API
         [HttpGet("GetCurrentUserInfo")]
         public IActionResult GetCurrentUserInfo()
         {
-            // Retrieve the user's identity from the current HttpContext
-            var userIdentity = HttpContext.User.Identity as ClaimsIdentity;
+            var claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
 
-            // Assuming you have a claim with the user's name
-            var userNameClaim = userIdentity.FindFirst(ClaimTypes.Name);
-            if (userNameClaim != null)
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
             {
-                var userName = userNameClaim.Value;
-                return Ok(new { UserName = userName });
+                return Unauthorized("User is not authenticated.");
             }
-            else
+            var userName = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+
+            if (string.IsNullOrWhiteSpace(userName))
             {
-                return NotFound(); // User's name not found in claims
+                return NotFound("User name not found in claims.");
             }
+            return Ok(new { UserName = userName });
         }
+
 
 
 
