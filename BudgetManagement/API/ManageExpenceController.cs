@@ -31,13 +31,6 @@ namespace ExpenseManagment.API
 
         }
 
-
-        //[HttpGet("DeletedExpences")]
-        //public async Task<IActionResult> GetDeletedExpences()
-        //{
-        //    return Ok(await db.DeletedExpences.Include(x => x.Account).ToListAsync());
-        //}
-
         [HttpGet("Expence/{id}")]
         public async Task<IActionResult> GetExpences(int id)
         {
@@ -47,62 +40,70 @@ namespace ExpenseManagment.API
         [AjaxExceptionFilter]
         [HttpPost("Expence")]
 
+        [HttpPost("PostExpence")]
         public async Task<IActionResult> PostExpence(ExpenceModel model)
         {
-
-
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    int DefaultExpenceAccountId = db.AccountEntities.Single(x => x.AccountTypeId == (int)Helper.AccountTypeId.GeneralExpenceAccountOfBusiness).Id;
-                    var newExpence = new Expence
-                    {
-                        ExpenceType = model.ExpenceType,
-                        ExpenceDate = model.ExpenceDate,
-                        ExpenceDesc = model.ExpenceDesc,
-                        AccountId = model.AccountId,
-                        ExpenceAmount = model.ExpenceAmount,
-                        InsertionDate = DateTime.Now
-                    };
-                    db.Expences.Add(newExpence);
-                    await db.DbSaveChangesAsync();
-                    //await db.SaveChangesAsync();
-
-                    Invoice invoice = new Invoice();
-                    invoice.AccountId = DefaultExpenceAccountId;
-                    invoice.IsPayable = true;
-                    invoice.Amount = newExpence.ExpenceAmount;
-                    invoice.Desc = newExpence.ExpenceDesc;
-                    invoice.InvoiceReffId = newExpence.Id;
-                    invoice.InvoiceDate = newExpence.ExpenceDate;
-                    invoice.InvoiceType = (int)Helper.InvoiceTypeId.ExpenceFromBusinessAccount;
-                    db.Invoices.Add(invoice);
-                    await db.DbSaveChangesAsync();
-                    //await db.SaveChangesAsync();
-
-                    Transaction transaction = new Transaction();
-                    transaction.InvoiceId = invoice.Id;
-                    transaction.Amount = newExpence.ExpenceAmount;
-                    transaction.Desc = newExpence.ExpenceDesc;
-                    transaction.TransactionDate = newExpence.ExpenceDate;
-                    transaction.BeneficiaryAccountId = newExpence.AccountId;
-                    transaction.CreateOn = DateTime.Now;
-                    transaction.CreatedBy = User.Identity.Name;
-                    db.Transactions.Add(transaction);
-                    //await db.SaveChangesAsync();
-
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
+                    return StatusCode(400, Helper.InvalidModelState);
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+                var defaultExpenseAccountId = db.AccountEntities
+                    .Single(x => x.AccountTypeId == (int)Helper.AccountTypeId.GeneralExpenceAccountOfBusiness)
+                    .Id;
+
+                var newExpense = new Expence
+                {
+                    ExpenceType = model.ExpenceType,
+                    ExpenceDate = model.ExpenceDate,
+                    ExpenceDesc = model.ExpenceDesc,
+                    AccountId = model.AccountId,
+                    ExpenceAmount = model.ExpenceAmount,
+                    InsertionDate = DateTime.Now
+                };
+
+                db.Expences.Add(newExpense);
+                await db.DbSaveChangesAsync();
+
+                var invoice = new Invoice
+                {
+                    AccountId = defaultExpenseAccountId,
+                    IsPayable = true,
+                    Amount = newExpense.ExpenceAmount,
+                    Desc = newExpense.ExpenceDesc,
+                    InvoiceReffId = newExpense.Id,
+                    InvoiceDate = newExpense.ExpenceDate,
+                    InvoiceType = (int)Helper.InvoiceTypeId.ExpenceFromBusinessAccount
+                };
+
+                db.Invoices.Add(invoice);
+                await db.DbSaveChangesAsync();
+
+                var transaction = new Transaction
+                {
+                    InvoiceId = invoice.Id,
+                    Amount = newExpense.ExpenceAmount,
+                    Desc = newExpense.ExpenceDesc,
+                    TransactionDate = newExpense.ExpenceDate,
+                    BeneficiaryAccountId = newExpense.AccountId,
+                    CreateOn = DateTime.Now,
+                    CreatedBy = User.Identity?.Name
+                };
+
+                db.Transactions.Add(transaction);
+
+                if (await db.DbSaveChangesAsync())
+                {
+                    return Ok();
+                }
+
+                return StatusCode(500, Helper.ErrorInSaveChanges);
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(500, $"{Helper.ObjectNotFound}: {ex.Message}");
             }
         }
 
@@ -112,27 +113,33 @@ namespace ExpenseManagment.API
         public async Task<IActionResult> PutExpence(ExpenceModel model)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest("Invalid data submitted.");
+            }
 
             try
             {
-                var expence = await db.Expences.FirstOrDefaultAsync(x => x.Id == model.Id);
-                var invoice = await db.Invoices.FirstOrDefaultAsync(x =>
-                    x.InvoiceReffId == model.Id &&
-                    x.InvoiceType == (int)Helper.InvoiceTypeId.ExpenceFromBusinessAccount);
+                var expense = await db.Expences.FirstOrDefaultAsync(x => x.Id == model.Id);
+                var invoice = await db.Invoices
+                    .FirstOrDefaultAsync(x => x.InvoiceReffId == model.Id &&
+                                              x.InvoiceType == (int)Helper.InvoiceTypeId.ExpenceFromBusinessAccount);
 
-                if (expence == null || invoice == null)
+                if (expense == null || invoice == null)
+                {
                     return NotFound("Expense or related invoice not found.");
+                }
 
                 var transaction = await db.Transactions.FirstOrDefaultAsync(x => x.InvoiceId == invoice.Id);
                 if (transaction == null)
+                {
                     return NotFound("Transaction not found.");
+                }
 
-                expence.ExpenceType = model.ExpenceType;
-                expence.ExpenceDate = model.ExpenceDate;
-                expence.ExpenceDesc = model.ExpenceDesc;
-                expence.ExpenceAmount = model.ExpenceAmount;
-                expence.AccountId = model.AccountId;
+                expense.ExpenceType = model.ExpenceType;
+                expense.ExpenceDate = model.ExpenceDate;
+                expense.ExpenceDesc = model.ExpenceDesc;
+                expense.ExpenceAmount = model.ExpenceAmount;
+                expense.AccountId = model.AccountId;
 
                 invoice.Amount = model.ExpenceAmount;
                 invoice.Desc = model.ExpenceDesc;
@@ -143,7 +150,7 @@ namespace ExpenseManagment.API
                 transaction.TransactionDate = model.ExpenceDate;
                 transaction.BeneficiaryAccountId = model.AccountId;
 
-                db.UpdateRange(expence, invoice, transaction);
+                db.UpdateRange(expense, invoice, transaction);
 
                 var result = await db.DbSaveChangesAsync();
                 return result
@@ -163,22 +170,28 @@ namespace ExpenseManagment.API
         {
             try
             {
-                var expence = await db.Expences.FirstOrDefaultAsync(x => x.Id == id);
-                if (expence == null)
+                var expense = await db.Expences.FirstOrDefaultAsync(x => x.Id == id);
+                if (expense == null)
+                {
                     return NotFound("Expense not found.");
+                }
 
-                var invoice = await db.Invoices.FirstOrDefaultAsync(x =>
-                    x.InvoiceReffId == id &&
-                    x.InvoiceType == (int)Helper.InvoiceTypeId.ExpenceFromBusinessAccount);
-
+                var invoice = await db.Invoices
+                    .FirstOrDefaultAsync(x => x.InvoiceReffId == id &&
+                                              x.InvoiceType == (int)Helper.InvoiceTypeId.ExpenceFromBusinessAccount);
                 if (invoice == null)
+                {
                     return NotFound("Invoice not found for the expense.");
+                }
 
-                var transaction = await db.Transactions.FirstOrDefaultAsync(x => x.InvoiceId == invoice.Id);
+                var transaction = await db.Transactions
+                    .FirstOrDefaultAsync(x => x.InvoiceId == invoice.Id);
                 if (transaction == null)
+                {
                     return NotFound("Transaction not found for the invoice.");
+                }
 
-                db.RemoveRange(transaction, invoice, expence);
+                db.RemoveRange(transaction, invoice, expense);
 
                 var result = await db.DbSaveChangesAsync();
                 return result

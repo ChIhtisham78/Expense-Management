@@ -71,60 +71,55 @@ namespace ExpenseManagment.API
         }
 
 
-
         [AjaxExceptionFilter]
         [HttpPost("GenerateSalaries")]
         public async Task<IActionResult> GenerateSalaries()
         {
             try
             {
-                var monthString = DateTime.Now.ToString("MMM");
+                var currentMonth = DateTime.Now.ToString("MMM");
                 var currentYear = DateTime.Now.ToString("yy");
-                var salaryMonth = monthString + "-" + currentYear;
+                var salaryMonth = $"{currentMonth}-{currentYear}";
 
-                var existingSalaries = await db.GeneratedSallaries
+                var salariesExist = await db.GeneratedSallaries
                     .AnyAsync(s => s.GeneratedSalaryMonth == salaryMonth);
 
-                if (existingSalaries)
+                if (salariesExist)
                 {
-                    return Ok("Salaries already");
+                    return Ok("Salaries already generated.");
                 }
 
-                List<GeneratedSallary> salaryMappings = new List<GeneratedSallary>();
-
-                var existingMappings = await db.SallaryMappings
+                var salaryMappings = await db.SallaryMappings
                     .Where(s => !s.IsDeleted)
                     .ToListAsync();
 
-                if (existingMappings.Count == 0)
+                if (!salaryMappings.Any())
                 {
-                    return Ok("NoData");
+                    return Ok("No salary mappings found.");
                 }
 
-                salaryMappings = existingMappings
-                    .Select(s => new GeneratedSallary
-                    {
-                        AccountId = s.AccountId,
-                        ProjectId = s.ProjectId,
-                        BasicAmount = s.BasicAmount,
-                        BonusAmount = 0,
-                        GrossPercentAmount = 0,
-                        GrossTotal = 0,
-                        GeneratedSalaryMonth = salaryMonth
-                    })
-                    .ToList();
+                var generatedSalaries = salaryMappings.Select(s => new GeneratedSallary
+                {
+                    AccountId = s.AccountId,
+                    ProjectId = s.ProjectId,
+                    BasicAmount = s.BasicAmount,
+                    BonusAmount = 0,
+                    GrossPercentAmount = 0,
+                    GrossTotal = 0,
+                    GeneratedSalaryMonth = salaryMonth
+                }).ToList();
 
-                db.GeneratedSallaries.AddRange(salaryMappings);
-
+                await db.GeneratedSallaries.AddRangeAsync(generatedSalaries);
                 await db.DbSaveChangesAsync();
 
-                return Ok("Salaries successfully");
+                return Ok("Salaries generated successfully.");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
         [HttpGet("CheckSalariesStatus")]
         public async Task<IActionResult> CheckSalariesStatus()
         {
