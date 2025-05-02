@@ -238,32 +238,41 @@ namespace ExpenseManagment.API
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            
             try
             {
-                var obj = await db.SallaryMappings.Where(x => x.Id == id).FirstOrDefaultAsync();
-                if (obj != null)
+                var salaryMapping = await db.SallaryMappings
+                    .FirstOrDefaultAsync(x => x.Id == id);
+
+                if (salaryMapping == null)
                 {
-                    obj.IsDeleted = true;
-                    await db.DbSaveChangesAsync();
+                    return NotFound(Helper.ObjectNotFound);
                 }
-                var obj2 = await db.EffectivePercentProjectMappings.Where(x => x.SallaryMappingId == obj.Id).ToListAsync();
-                if (obj2 != null)
+                salaryMapping.IsDeleted = true;
+                await db.DbSaveChangesAsync();
+
+                var relatedMappings = await db.EffectivePercentProjectMappings
+                    .Where(x => x.SallaryMappingId == id)
+                    .ToListAsync();
+
+                if (relatedMappings.Any())
                 {
-                    db.EffectivePercentProjectMappings.RemoveRange(obj2);
-                    if (await db.DbSaveChangesAsync())
+                    db.EffectivePercentProjectMappings.RemoveRange(relatedMappings);
+
+                    var saveResult = await db.DbSaveChangesAsync();
+                    if (!saveResult)
                     {
-                        return Ok();
+                        return StatusCode(500, Helper.ErrorInSaveChanges);
                     }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
                 }
-                return StatusCode(500, Helper.ObjectNotFound);
+
+                return Ok();
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(500, $"{Helper.ErrorInSaveChanges}: {ex.Message}");
             }
         }
+
 
     }
 
