@@ -15,26 +15,34 @@ namespace ExpenseManagment.API
 			db = _db;
 		}
 
-		[HttpGet("GetPayableInvoices")]
-		public async Task<IActionResult> GetPayableInvoices()
-		{
-			var payableInvoices = await db.Invoices
-				.Where(invoice => invoice.IsPayable)
-				.Select(invoice => new
-				{
-					AccountName = db.AccountEntities.FirstOrDefault(acc => acc.Id == invoice.AccountId) != null ? db.AccountEntities.FirstOrDefault(acc => acc.Id == invoice.AccountId).AccName : null,
-					InvoiceAmount = invoice.Amount,
-					InvoiceDate = invoice.InvoiceDate,
-					TransactionAmount = db.Transactions
-								.Where(t => t.InvoiceId == invoice.Id)
-								.Sum(t => t.Amount),
-					Balance = invoice.Amount - db.Transactions
-						.Where(t => t.InvoiceId == invoice.Id)
-						.Sum(t => t.Amount),
-					InvoiceReffId = invoice.InvoiceReffId // Include InvoiceReffId in the result
-				})
-				.ToListAsync();
-			return Ok(payableInvoices);
-		}
-	}
+        [HttpGet("GetPayableInvoices")]
+        public async Task<IActionResult> GetPayableInvoices()
+        {
+            var payableInvoices = await db.Invoices
+                .Where(invoice => invoice.IsPayable)
+                .Select(invoice => new
+                {
+                    AccountName = db.AccountEntities
+                        .Where(acc => acc.Id == invoice.AccountId)
+                        .Select(acc => acc.AccName)
+                        .FirstOrDefault(),
+
+                    InvoiceAmount = invoice.Amount,
+                    InvoiceDate = invoice.InvoiceDate,
+                    InvoiceReffId = invoice.InvoiceReffId,
+
+                    TransactionAmount = db.Transactions
+                        .Where(t => t.InvoiceId == invoice.Id)
+                        .Sum(t => (decimal?)t.Amount) ?? 0,
+
+                    Balance = invoice.Amount - (db.Transactions
+                        .Where(t => t.InvoiceId == invoice.Id)
+                        .Sum(t => (decimal?)t.Amount) ?? 0)
+                })
+                .ToListAsync();
+
+            return Ok(payableInvoices);
+        }
+
+    }
 }
