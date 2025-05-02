@@ -16,7 +16,7 @@ namespace ExpenseManagment.API
         {
             db = _db;
         }
-        //For Inward  Reports
+
         [HttpGet("GetReport")]
         public async Task<IActionResult> GetReport(int? accountId)
         {
@@ -25,24 +25,32 @@ namespace ExpenseManagment.API
                     .ThenInclude(x => x.AccountEntities)
                 .Where(x => x.Invoice.InvoiceType == (int)Helper.InvoiceTypeId.BusinessCapitalAccountTransaction);
 
-            if (accountId.HasValue && accountId != 0)
+            if (accountId.HasValue && accountId.Value != 0)
             {
-                query = query.Where(x => x.Invoice.AccountId == accountId || x.BeneficiaryAccountId == accountId);
+                query = query.Where(x =>
+                    x.Invoice.AccountId == accountId.Value ||
+                    x.BeneficiaryAccountId == accountId.Value);
             }
 
-            var data = await query.OrderByDescending(x => x.Id)
+            var data = await query
+                .OrderByDescending(x => x.Id)
                 .Select(x => new
                 {
                     TransactionId = x.Id,
                     x.TransactionDate,
                     x.Amount,
                     Payee = x.Invoice.AccountEntities.AccName,
-                    Recipient = db.AccountEntities.FirstOrDefault(c => c.Id == x.BeneficiaryAccountId).AccName,
-                    x.Desc,
-                }).ToListAsync();
+                    Recipient = db.AccountEntities
+                        .Where(c => c.Id == x.BeneficiaryAccountId)
+                        .Select(c => c.AccName)
+                        .FirstOrDefault(),
+                    x.Desc
+                })
+                .ToListAsync();
 
             return Ok(data);
         }
+
 
         // For Outward Reports
         [HttpGet("ReportGenerator")]
