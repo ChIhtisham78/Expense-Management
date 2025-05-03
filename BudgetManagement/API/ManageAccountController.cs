@@ -109,34 +109,40 @@ namespace ExpenseManagment.API
         [HttpPost("Client")]
         public async Task<IActionResult> AddNewClient(AccountModel model)
         {
-
-
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    AccountEntity client = new AccountEntity();
-                    client.AccName = model.Name;
-                    client.Email = model.Email;
-                    client.Cell = model.Cell;
-                    client.WebSiteLink = model.WebSiteLink;
-                    client.Desc = model.Desc;
-                    client.AccountTypeId = (int)Helper.AccountTypeId.client;
-                    client.CreationDate = DateTime.Now;
-                    db.AccountEntities.Add(client);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
+                    return StatusCode(400, Helper.InvalidModelState);
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+                var client = new AccountEntity
+                {
+                    AccName = model.Name,
+                    Email = model.Email,
+                    Cell = model.Cell,
+                    WebSiteLink = model.WebSiteLink,
+                    Desc = model.Desc,
+                    AccountTypeId = (int)Helper.AccountTypeId.client,
+                    CreationDate = DateTime.Now
+                };
+
+                db.AccountEntities.Add(client);
+
+                bool isSaved = await db.DbSaveChangesAsync();
+                if (isSaved)
+                {
+                    return Ok();
+                }
+
+                return StatusCode(500, Helper.ErrorInSaveChanges);
             }
             catch (Exception exp)
             {
                 return StatusCode(500, Helper.ObjectNotFound + exp.Message);
             }
         }
+
 
         #endregion
 
