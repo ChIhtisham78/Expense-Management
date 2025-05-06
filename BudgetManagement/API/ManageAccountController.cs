@@ -161,32 +161,38 @@ namespace ExpenseManagment.API
         [HttpPost("Business")]
         public async Task<IActionResult> AddNewBusiness(AccountModel model)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(Helper.InvalidModelState);
+            }
 
             try
             {
-                if (ModelState.IsValid)
+                var businessEntity = new AccountEntity
                 {
-                    AccountEntity business = new AccountEntity();
-                    business.AccName = model.Name;
-                    business.Email = model.Email;
-                    business.Cell = model.Cell;
-                    business.WebSiteLink = model.WebSiteLink;
-                    business.Desc = model.Desc;
-                    business.AccountTypeId = (int)Helper.AccountTypeId.business;
-                    business.CreationDate = DateTime.Now;
-                    db.AccountEntities.Add(business);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
+                    AccName = model.Name,
+                    Email = model.Email,
+                    Cell = model.Cell,
+                    WebSiteLink = model.WebSiteLink,
+                    Desc = model.Desc,
+                    AccountTypeId = (int)Helper.AccountTypeId.business,
+                    CreationDate = DateTime.UtcNow
+                };
+
+                db.AccountEntities.Add(businessEntity);
+
+                var saveResult = await db.DbSaveChangesAsync();
+                if (saveResult)
+                {
+                    return Ok();
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+                return StatusCode(500, Helper.ErrorInSaveChanges);
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                // Optionally log the exception here using your logging framework
+                return StatusCode(500, $"{Helper.ObjectNotFound} {ex.Message}");
             }
         }
 
