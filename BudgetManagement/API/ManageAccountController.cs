@@ -214,34 +214,40 @@ namespace ExpenseManagment.API
         [HttpPost("Partner")]
         public async Task<IActionResult> AddNewPartner(AccountModel model)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(Helper.InvalidModelState);
+            }
 
             try
             {
-                if (ModelState.IsValid)
+                var partnerEntity = new AccountEntity
                 {
-                    AccountEntity partner = new AccountEntity();
-                    partner.AccName = model.Name;
-                    partner.Email = model.Email;
-                    partner.Cell = model.Cell;
-                    partner.WebSiteLink = model.WebSiteLink;
-                    partner.Desc = model.Desc;
-                    partner.AccountTypeId = (int)Helper.AccountTypeId.partner;
-                    partner.CreationDate = DateTime.Now;
-                    db.AccountEntities.Add(partner);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
+                    AccName = model.Name,
+                    Email = model.Email,
+                    Cell = model.Cell,
+                    WebSiteLink = model.WebSiteLink,
+                    Desc = model.Desc,
+                    AccountTypeId = (int)Helper.AccountTypeId.partner,
+                    CreationDate = DateTime.UtcNow
+                };
+
+                db.AccountEntities.Add(partnerEntity);
+
+                var saveResult = await db.DbSaveChangesAsync();
+                if (saveResult)
+                {
+                    return Ok();
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+                return StatusCode(500, Helper.ErrorInSaveChanges);
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(500, $"{Helper.ObjectNotFound} {ex.Message}");
             }
         }
+
 
         #endregion
 
