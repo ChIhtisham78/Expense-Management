@@ -83,11 +83,11 @@ namespace ExpenseManagment.API
                 return NotFound("File Not Found");
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", file.FileName);
-            using (var stream = new FileStream(filePath,FileMode.Create))
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            return Ok(new { filePath}); 
+            return Ok(new { filePath });
 
         }
 
@@ -100,7 +100,7 @@ namespace ExpenseManagment.API
         [Authorize(Roles = Helper.RolesAttrVal.Client)]
         public async Task<IActionResult> GetClients()
         {
-            var getClients = await db.AccountEntities.Where(x=>x.AccountTypeId==(int)Helper.AccountTypeId.client).OrderByDescending(x => x.Id).ToListAsync();
+            var getClients = await db.AccountEntities.Where(x => x.AccountTypeId == (int)Helper.AccountTypeId.client).OrderByDescending(x => x.Id).ToListAsync();
             return Ok(getClients);
         }
 
@@ -266,34 +266,40 @@ namespace ExpenseManagment.API
         [HttpPost("Contractor")]
         public async Task<IActionResult> AddNewContractor(AccountModel model)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(Helper.InvalidModelState);
+            }
 
             try
             {
-                if (ModelState.IsValid)
+                var contractorEntity = new AccountEntity
                 {
-                    AccountEntity contractor = new AccountEntity();
-                    contractor.AccName = model.Name;
-                    contractor.Email = model.Email;
-                    contractor.Cell = model.Cell;
-                    contractor.WebSiteLink = model.WebSiteLink;
-                    contractor.Desc = model.Desc;
-                    contractor.AccountTypeId = (int)Helper.AccountTypeId.contractor;
-                    contractor.CreationDate = DateTime.Now;
-                    db.AccountEntities.Add(contractor);
-                    if (await db.DbSaveChangesAsync())
-                    {
-                        return Ok();
-                    }
-                    return StatusCode(500, Helper.ErrorInSaveChanges);
+                    AccName = model.Name,
+                    Email = model.Email,
+                    Cell = model.Cell,
+                    WebSiteLink = model.WebSiteLink,
+                    Desc = model.Desc,
+                    AccountTypeId = (int)Helper.AccountTypeId.contractor,
+                    CreationDate = DateTime.UtcNow
+                };
+
+                db.AccountEntities.Add(contractorEntity);
+
+                var saveResult = await db.DbSaveChangesAsync();
+                if (saveResult)
+                {
+                    return Ok();
                 }
-                return StatusCode(500, Helper.InvalidModelState);
+
+                return StatusCode(500, Helper.ErrorInSaveChanges);
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                return StatusCode(500, Helper.ObjectNotFound + exp.Message);
+                return StatusCode(500, $"{Helper.ObjectNotFound} {ex.Message}");
             }
         }
+
 
         #endregion
     }
