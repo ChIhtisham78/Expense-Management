@@ -253,7 +253,6 @@ namespace ExpenseManagment.API
 
         #region
 
-        // Get : Contractor
         [HttpGet("Contractor")]
         [Authorize(Roles = Helper.RolesAttrVal.Contractor)]
         public async Task<IActionResult> GetContactor()
@@ -261,7 +260,6 @@ namespace ExpenseManagment.API
             return Ok(await db.AccountEntities.Where(x => x.AccountTypeId == (int)Helper.AccountTypeId.contractor).OrderByDescending(x => x.Id).ToListAsync());
         }
 
-        // Post : Contractor
         [AjaxExceptionFilter]
         [HttpPost("Contractor")]
         public async Task<IActionResult> AddNewContractor(AccountModel model)

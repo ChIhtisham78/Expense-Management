@@ -34,9 +34,18 @@ namespace ExpenseManagment.API
         [HttpGet("Expence/{id}")]
         public async Task<IActionResult> GetExpences(int id)
         {
-            var expense = await db.Expences.Include(x => x.Account).FirstOrDefaultAsync(x => x.Id == id);
+            var expense = await db.Expences
+                .Include(x => x.Account)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (expense == null)
+            {
+                return NotFound($"Expense with ID {id} was not found.");
+            }
+
             return Ok(expense);
         }
+
         [AjaxExceptionFilter]
         [HttpPost("Expence")]
 
