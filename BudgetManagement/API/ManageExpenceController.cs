@@ -48,8 +48,6 @@ namespace ExpenseManagment.API
 
         [AjaxExceptionFilter]
         [HttpPost("Expence")]
-
-        [HttpPost("PostExpence")]
         public async Task<IActionResult> PostExpence(ExpenceModel model)
         {
             try
