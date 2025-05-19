@@ -240,13 +240,13 @@ namespace ExpenseManagment.API
         {
             try
             {
-                var salaryMapping = await db.SallaryMappings
-                    .FirstOrDefaultAsync(x => x.Id == id);
+                var salaryMapping = await db.SallaryMappings.FindAsync(id);
 
                 if (salaryMapping == null)
                 {
                     return NotFound(Helper.ObjectNotFound);
                 }
+
                 salaryMapping.IsDeleted = true;
                 await db.DbSaveChangesAsync();
 
@@ -256,7 +256,7 @@ namespace ExpenseManagment.API
 
                 if (relatedMappings.Any())
                 {
-                    db.EffectivePercentProjectMappings.RemoveRange(relatedMappings);
+                   db.EffectivePercentProjectMappings.RemoveRange(relatedMappings);
 
                     var saveResult = await db.DbSaveChangesAsync();
                     if (!saveResult)
